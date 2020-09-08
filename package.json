@@ -22,8 +22,10 @@
     "node": ">=10"
   },
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.0.43",
     "@types/chai": "^4.2.6",
     "@types/mocha": "^5.2.7",
+    "arb-ethers-web3-bridge": "^0.7.3",
     "chai": "^4.2.0",
     "ethereum-waffle": "^2.4.1",
     "ethereumjs-util": "^6.2.0",
