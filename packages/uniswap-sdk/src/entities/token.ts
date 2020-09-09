@@ -80,6 +80,6 @@ export const WETH = {
   ),
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'),
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'),
-  [ChainId.ARBITRUM]: new Token(ChainId.ARBITRUM, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether') // TODO
+  [ChainId.ARBITRUM]: new Token(ChainId.ARBITRUM, '0x253a32bb4E6821350409c2C9b133c46b14e2C1A8', 18, 'WETH', 'Wrapped Ether') // deployed w/ "canonical WETH"
 
 }
