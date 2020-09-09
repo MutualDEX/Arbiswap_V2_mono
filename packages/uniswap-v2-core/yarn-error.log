@@ -1,0 +1,81 @@
+Arguments: 
+  /Users/dzack/.nvm/versions/node/v10.16.3/bin/node /Users/dzack/.yarn/bin/yarn.js
+
+PATH: 
+  /Users/dzack/.yarn/bin:/Users/dzack/.config/yarn/global/node_modules/.bin:/Users/dzack/.nvm/versions/node/v10.16.3/bin:/Users/dzack/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/dzack/.go/bin:/usr/local/opt/go/libexec/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  10.16.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Invariant Violation: could not find a copy of rimraf to link in /Users/dzack/Arbiswap_V2_mono/node_modules/@uniswap/interface/node_modules/@uniswap/sdk/node_modules/@uniswap/v2-core/node_modules
+      at invariant (/Users/dzack/.yarn/lib/cli.js:2314:15)
+      at PackageLinker.<anonymous> (/Users/dzack/.yarn/lib/cli.js:48716:7)
+      at Generator.next (<anonymous>)
+      at step (/Users/dzack/.yarn/lib/cli.js:310:30)
+      at /Users/dzack/.yarn/lib/cli.js:321:13
+      at process._tickCallback (internal/process/next_tick.js:68:7)
+
+npm manifest: 
+  {
+    "name": "@uniswap/v2-core",
+    "description": "🎛 Core contracts for the UniswapV2 protocol",
+    "version": "1.0.1",
+    "homepage": "https://uniswap.org",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/Uniswap/uniswap-v2-core"
+    },
+    "keywords": [
+      "uniswap",
+      "ethereum",
+      "v2",
+      "core",
+      "uniswap-v2"
+    ],
+    "files": [
+      "contracts",
+      "build"
+    ],
+    "engines": {
+      "node": ">=10"
+    },
+    "devDependencies": {
+      "@truffle/hdwallet-provider": "^1.0.43",
+      "@types/chai": "^4.2.6",
+      "@types/mocha": "^5.2.7",
+      "arb-ethers-web3-bridge": "^0.7.3",
+      "chai": "^4.2.0",
+      "ethereum-waffle": "^2.4.1",
+      "ethereumjs-util": "^6.2.0",
+      "mocha": "^6.2.2",
+      "prettier": "^1.19.1",
+      "rimraf": "^3.0.0",
+      "solc": "0.5.16",
+      "ts-node": "^8.5.4",
+      "typescript": "^3.7.3"
+    },
+    "scripts": {
+      "lint": "yarn prettier ./test/*.ts --check",
+      "lint:fix": "yarn prettier ./test/*.ts --write",
+      "clean": "rimraf ./build/",
+      "precompile": "yarn clean",
+      "compile": "waffle .waffle.json",
+      "pretest": "yarn compile",
+      "test": "mocha",
+      "prepublishOnly": "yarn test"
+    },
+    "license": "GPL-3.0-or-later"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
