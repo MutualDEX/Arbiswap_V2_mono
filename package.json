@@ -2,6 +2,6 @@
   "name": "arbiswap_v2_mono",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [],
+  "workspaces": ["packages/*"],
   "scripts": {}
 }
