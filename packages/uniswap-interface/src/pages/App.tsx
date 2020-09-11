@@ -20,6 +20,8 @@ import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
+import Bridge from './Bridge'
+
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 
 const AppWrapper = styled.div`
@@ -76,6 +78,7 @@ export default function App() {
                 <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                 <Route exact strict path="/find" component={PoolFinder} />
                 <Route exact strict path="/pool" component={Pool} />
+                <Route exact strict path="/bridge" component={Bridge} />
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
