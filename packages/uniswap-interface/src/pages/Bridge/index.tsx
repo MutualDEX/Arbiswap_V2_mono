@@ -45,7 +45,11 @@ import AppBody from '../AppBody'
 import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 
-export default function Swap() {
+// todo:
+interface BridgeProps {
+  bridge: any
+}
+export default function Bridge(props: BridgeProps) {
   const loadedUrlParams = useDefaultsFromURLSearch()
 
   // token warning stuff
