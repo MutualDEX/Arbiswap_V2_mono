@@ -3019,7 +3019,7 @@
     "@uniswap/lib" "1.1.1"
     "@uniswap/v2-core" "1.0.0"
 
-"@walletconnect/client@^1.1.1-alpha.0":
+"@walletconnect/client@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/client/-/client-1.2.2.tgz#bbebf8fbaeaf6d54e8b65cdaa67cacb978765eeb"
   integrity sha512-olU/9O56ygvKlEsQoQceExiiYLffyy5ZphTK8xkGkJUHOm9wciXWgIgS6v3g9YKxeH+a6j+R6t/E/zYLMwbdFg==
@@ -3038,7 +3038,7 @@
     "@walletconnect/types" "^1.2.2"
     "@walletconnect/utils" "^1.2.2"
 
-"@walletconnect/http-connection@^1.1.1-alpha.0":
+"@walletconnect/http-connection@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/http-connection/-/http-connection-1.2.2.tgz#07b5671267329c193fdd6148722f391f339a9351"
   integrity sha512-D9Eb9RYlmDifq0yN/IH0L8GGpAwankXVKAmp8jtW/nKtbWA9a8DAd0MOJ+ybx2uIJ/fWeDsFcOnMFf22+02xOQ==
@@ -3061,7 +3061,7 @@
   resolved "https://registry.yarnpkg.com/@walletconnect/mobile-registry/-/mobile-registry-1.2.2.tgz#f0a01ec9d682d2097f45d941b9e8594903217074"
   integrity sha512-ZkxF9yq+5ygXGf4Z0vI3EkixU9B66UC0FVu33UxVN2YgUgzgPzakhANbsL1+5reVMDJRebyX/7qZX8uEXL+0Ow==
 
-"@walletconnect/qrcode-modal@^1.1.1-alpha.0":
+"@walletconnect/qrcode-modal@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/qrcode-modal/-/qrcode-modal-1.2.2.tgz#99e5325f5ea858964436bb3602720a4a8f01b1b9"
   integrity sha512-ZuQgT2UsGUARmLp1nUuBoA62qY1y7cO/8j3EkjtVgJN8eeYSxtVDNGc94um42VKIAWnRAT26Uk8/XvN/Mmus+A==
@@ -3080,12 +3080,12 @@
     "@walletconnect/types" "^1.2.2"
     ws "7.3.0"
 
-"@walletconnect/types@^1.1.1-alpha.0", "@walletconnect/types@^1.2.2":
+"@walletconnect/types@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/types/-/types-1.2.2.tgz#24f2aa9f21c34b97ffeb2757533d26d3bf09b5a6"
   integrity sha512-kaG5HwlymtQENcO8TbkfT5ORNgAn2GYuhtiKUNWSq7bmJ05PcoaGmtHf/rXaYLiEf+QLp/5JAClT+iHc3eMgsA==
 
-"@walletconnect/utils@^1.1.1-alpha.0", "@walletconnect/utils@^1.2.2":
+"@walletconnect/utils@^1.2.2":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@walletconnect/utils/-/utils-1.2.2.tgz#9c0d7bc9a3b3f4a1b5a5b2773fb1edebf1c50f3a"
   integrity sha512-FqCxZVijQnJfGapXsYC6D8D5MyX5gp+1AIpBfCmFh6PEIlAH4JDwPZ7RXsWDuSqnXVo5gzsz+VLP5Nac2YoPDQ==
@@ -3095,16 +3095,16 @@
     enc-utils "2.1.0"
     js-sha3 "0.8.0"
 
-"@walletconnect/web3-provider@1.1.1-alpha.0", "@walletconnect/web3-provider@^1.2.0-alpha.0":
-  version "1.1.1-alpha.0"
-  resolved "https://registry.yarnpkg.com/@walletconnect/web3-provider/-/web3-provider-1.1.1-alpha.0.tgz#b8ca2158da4974b692f57e4f939b5128d8e4696f"
-  integrity sha512-1AoTeCOtK8u2jIH+0NsvisPv2TySZLWHwWu0BIb72wzvzJeG3uD383/stHX8mBOI6a0aPoyDEYzA2R4c/O0vWQ==
+"@walletconnect/web3-provider@^1.2.0-alpha.0":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@walletconnect/web3-provider/-/web3-provider-1.2.2.tgz#1f4a9965c354a6222589ea9495159fdc21206692"
+  integrity sha512-cLyNjMb2WzU36q18s2Q8/rM0CAKQLw3T7McQuq7yo52Kau3MmIL1CFn1hSRcCdvDac0OJw2c5Nj1+JzC7mI0pQ==
   dependencies:
-    "@walletconnect/client" "^1.1.1-alpha.0"
-    "@walletconnect/http-connection" "^1.1.1-alpha.0"
-    "@walletconnect/qrcode-modal" "^1.1.1-alpha.0"
-    "@walletconnect/types" "^1.1.1-alpha.0"
-    "@walletconnect/utils" "^1.1.1-alpha.0"
+    "@walletconnect/client" "^1.2.2"
+    "@walletconnect/http-connection" "^1.2.2"
+    "@walletconnect/qrcode-modal" "^1.2.2"
+    "@walletconnect/types" "^1.2.2"
+    "@walletconnect/utils" "^1.2.2"
     web3-provider-engine "15.0.12"
 
 "@web3-js/scrypt-shim@^0.1.0":
@@ -17589,10 +17589,10 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-token-bridge-sdk@^0.1.9:
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/token-bridge-sdk/-/token-bridge-sdk-0.1.9.tgz#c20834b55503eea764dad6ef035397cba13b0efb"
-  integrity sha512-cSKt/5WAxVvogt/iRgIhfilI1HmFmRwrN3QHsmOKxEhDX+1h0f6wIIbkO+TASMQJCxOPpwgnCQJloXA8mh9y7Q==
+token-bridge-sdk@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/token-bridge-sdk/-/token-bridge-sdk-0.2.0.tgz#d2376820ddb5c610d5e535c89e2bf0b838dbdb2e"
+  integrity sha512-y7QXPF4kbLVJgoKouMl6uEd8nEyoXQwcvjQDvqD3798xqpEi0c2XVifbaiGxkepTKietQfbV8Cf1hZHG3htFhQ==
   dependencies:
     "@rehooks/local-storage" "^2.3.0"
     "@types/lodash.isempty" "^4.4.6"
