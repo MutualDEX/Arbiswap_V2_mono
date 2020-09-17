@@ -22,7 +22,7 @@ import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redir
 import Swap from './Swap'
 import Bridge from './Bridge'
 import { useArbTokenBridge } from 'token-bridge-sdk'
-import { ethers } from 'ethers'
+import { ethers } from 'ethers-old'
 
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 
@@ -62,16 +62,19 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const ethProvider = new ethers.providers.JsonRpcProvider("http://localhost:7545")
+  const ethProvider = new ethers.providers.JsonRpcProvider("https://node.offchainlabs.com:7547")
   // @ts-ignore
   const arbProvider = new ethers.providers.Web3Provider(window.ethereum)
-  const arbSigner = arbProvider.getSigner(0)
-  const bridge = useArbTokenBridge(  
+  const arbSigner = arbProvider.getSigner("0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F")
+  const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken}} = useArbTokenBridge(  
     // @ts-ignore
     ethProvider,
     arbProvider,
     "0xc68DCee7b8cA57F41D1A417103CB65836E99e013",
-    null,
+    ethProvider.getSigner(
+      // @ts-ignore
+      "0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F"
+    ),
     arbSigner
   )
   
@@ -94,7 +97,7 @@ export default function App() {
                 <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                 <Route exact strict path="/find" component={PoolFinder} />
                 <Route exact strict path="/pool" component={Pool} />
-                <Route exact strict path="/bridge" component={()=> <Bridge bridge={bridge}/>} />
+                <Route exact strict path="/bridge" component={()=> <Bridge withdrawEth={withdrawEth} withdrawToken={withdrawToken}/>} />
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
