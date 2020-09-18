@@ -46,6 +46,7 @@ import { ClickableText } from '../Pool/styleds'
 import Loader from '../../components/Loader'
 import styled from 'styled-components'
 import { darken } from 'polished'
+import { TokenType } from 'token-bridge-sdk'
 
 
 const Container = styled.div<{ hideInput: boolean }>`
@@ -69,9 +70,11 @@ const LabelRow = styled.div`
 // todo: return types? meh.
 interface BridgeProps {
   withdrawEth: (val: string)=>any,
-  withdrawToken: (add:string, val: string)=> any
+  withdrawToken: (add:string, val: string)=> any,
+  bridgeTokens: any,
+  addToken: (address: string, type: TokenType)=> Promise<string>
 }
-export default function Bridge({withdrawEth, withdrawToken}: BridgeProps) {
+export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addToken}: BridgeProps) {
   const loadedUrlParams = useDefaultsFromURLSearch()
 
   // token warning stuff
@@ -199,16 +202,15 @@ export default function Bridge({withdrawEth, withdrawToken}: BridgeProps) {
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
   const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
-  console.warn(maxAmountInput);
   const currencyValue = formattedAmounts[Field.INPUT]
   const currency = currencies[Field.INPUT]
-  
   const handleWithdraw = useCallback(()=>{
     if (!currency) return;
     if (currency.symbol === "ETH"){
       withdrawEth(currencyValue)
     } else {
-
+      const currentCurrency = currency as Token 
+      withdrawToken(currentCurrency.address, currencyValue)
     }
   }, [currencyValue, currency, withdrawEth, withdrawToken])
   
@@ -289,11 +291,17 @@ export default function Bridge({withdrawEth, withdrawToken}: BridgeProps) {
   }, [attemptingTxn, showConfirm, swapErrorMessage, trade, txHash])
 
   const handleInputSelect = useCallback(
-    inputCurrency => {
+    inputCurrency => {      
       setApprovalSubmitted(false) // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency)
+       
+      if (!inputCurrency || inputCurrency.symbol === "ETH")return
+      const currentCurrency = inputCurrency as Token 
+      if( !bridgeTokens[currentCurrency.address]){        
+        addToken(currentCurrency.address, TokenType.ERC20)
+      }
     },
-    [onCurrencySelection]
+    [onCurrencySelection, bridgeTokens]
   )
 
   const handleMaxInput = useCallback(() => {
