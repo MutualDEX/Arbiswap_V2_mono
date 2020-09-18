@@ -395,7 +395,7 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
             )}
           </AutoColumn>
           <BottomGrouping>
-          <ButtonLight onClick={handleWithdraw}>Withdraw</ButtonLight>
+          <ButtonLight disabled={+currencyValue === 0} onClick={handleWithdraw}>Withdraw</ButtonLight>
           </BottomGrouping>
         </Wrapper>
       </AppBody>
