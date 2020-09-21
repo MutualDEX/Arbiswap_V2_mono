@@ -12,7 +12,7 @@ module.exports = {
       port: 7545,
       network_id: '*', // Match any network id
     },
-    arbitrum: {
+    local_arbitrum: {
       provider: function () {
         return wrapProvider(
           new HDWalletProvider(mnemonic, 'http://127.0.0.1:8547/')
