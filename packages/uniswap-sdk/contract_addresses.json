@@ -1,0 +1,6 @@
+{
+    "wethAddress":"0x253a32bb4E6821350409c2C9b133c46b14e2C1A8",
+    "routerAddress":"0x610e322b48A6DA912641CfC9ebcd5BFfFaaFEf69",
+    "factoryAddress":"0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
+    "multicallAddress":"0x2Ae20c8f7cFD9209A8B33C400CE006c2897c1b82"
+}
