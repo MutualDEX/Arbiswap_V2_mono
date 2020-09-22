@@ -1,0 +1,13 @@
+{
+  "name": "other_contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.1.0",
+    "arb-ethers-web3-bridge": "^0.7.3"
+  },
+  "scripts":{
+    "migrate": "truffle migrate --reset --network local_arbitrum"
+  }
+}

@@ -20,8 +20,12 @@ import PoolFinder from './PoolFinder'
 import RemoveLiquidity from './RemoveLiquidity'
 import { RedirectOldRemoveLiquidityPathStructure } from './RemoveLiquidity/redirects'
 import Swap from './Swap'
-import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import Bridge from './Bridge'
+import { useArbTokenBridge } from 'token-bridge-sdk'
+import { ethers } from 'ethers-old'
 
+import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
+import useL1Provider from '../hooks/useL1Provider'
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -58,6 +62,23 @@ const Marginer = styled.div`
 `
 
 export default function App() {
+  const ethProvider = useL1Provider(process.env.REACT_APP_L1_URL as string)
+  // @ts-ignore
+  const arbProvider = new ethers.providers.Web3Provider(window.ethereum)
+  const arbSigner = arbProvider.getSigner("0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F")
+  const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken, add: addToken}, bridgeTokens} = useArbTokenBridge(  
+    // @ts-ignore
+    ethProvider,
+    arbProvider,
+    "0xc68DCee7b8cA57F41D1A417103CB65836E99e013",
+    ethProvider.getSigner(
+      // @ts-ignore
+      "0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F"
+    ),
+    arbSigner
+  )
+  
+
   return (
     <Suspense fallback={null}>
       <HashRouter>
@@ -76,6 +97,7 @@ export default function App() {
                 <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                 <Route exact strict path="/find" component={PoolFinder} />
                 <Route exact strict path="/pool" component={Pool} />
+                <Route exact strict path="/bridge" component={()=> <Bridge withdrawEth={withdrawEth} withdrawToken={withdrawToken} bridgeTokens={bridgeTokens} addToken={addToken}/>} />
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
