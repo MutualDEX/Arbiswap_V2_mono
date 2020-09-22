@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "module": "esnext",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "resolveJsonModule": true,
     "lib": [
       "dom",
       "dom.iterable",
@@ -8,35 +14,17 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noImplicitReturns": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "downlevelIteration": true,
     "allowSyntheticDefaultImports": true,
-    "types": [
-      "react-spring",
-      "jest"
-    ]
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
   },
-  "exclude": [
-    "node_modules",
-    "cypress"
+  "lib": [
+    "es2015"
   ],
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
+    "src"
   ]
 }
