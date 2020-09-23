@@ -8,6 +8,6 @@
     "arb-ethers-web3-bridge": "^0.7.3"
   },
   "scripts":{
-    "migrate": "truffle migrate --reset --network local_arbitrum"
+    "migrate": "truffle migrate --reset"
   }
 }

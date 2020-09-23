@@ -3,5 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": {"packages":["packages/other_contracts", "packages/uniswap-interface", "packages/uniswap-sdk", "packages/uniswap-v2-core"]},
-  "scripts": {"local_setup": "yarn workspace @uniswap/v2-core migrate && yarn workspace other_contracts migrate && yarn workspace @uniswap/sdk build"}
+  "scripts": {
+  	"local_setup": "yarn workspace @uniswap/v2-core migrate --network local_arbitrum && yarn workspace other_contracts migrate --network local_arbitrum && yarn workspace @uniswap/sdk build",
+  	"developement_setup": "yarn workspace @uniswap/v2-core migrate && yarn workspace other_contracts migrate && yarn workspace @uniswap/sdk build"
+  }
 }
