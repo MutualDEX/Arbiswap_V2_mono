@@ -46,7 +46,10 @@
     "pretest": "yarn compile",
     "test": "mocha",
     "prepublishOnly": "yarn test",
-    "migrate": "truffle migrate --reset"
+    "migrate": "truffle migrate --reset",
+    "migrate_local": "truffle migrate --reset --network local_arbitrum",
+    "migrate_remote": "truffle migrate --reset --network remote_arbitrum"
+
   },
   "license": "GPL-3.0-or-later"
 }
