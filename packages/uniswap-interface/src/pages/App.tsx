@@ -65,16 +65,14 @@ export default function App() {
   const ethProvider = useL1Provider(process.env.REACT_APP_L1_URL as string)
   // @ts-ignore
   const arbProvider = new ethers.providers.Web3Provider(window.ethereum)
-  const arbSigner = arbProvider.getSigner("0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F")
+  const arbSigner = arbProvider.getSigner(0)
   const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken, add: addToken}, bridgeTokens} = useArbTokenBridge(  
     // @ts-ignore
     ethProvider,
     arbProvider,
+    // TODO
     "0xc68DCee7b8cA57F41D1A417103CB65836E99e013",
-    ethProvider.getSigner(
-      // @ts-ignore
-      "0x38299D74a169e68df4Da85Fb12c6Fd22246aDD9F"
-    ),
+    ethProvider.getSigner(0),
     arbSigner
   )
   
