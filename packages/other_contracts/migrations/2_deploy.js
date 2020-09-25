@@ -5,7 +5,7 @@ const fs = require('fs')
 const contracts = require('../../uniswap-sdk/contract_addresses.json')
 module.exports = async function(deployer) {
     await deployer.deploy(MULTICALL);
-    const multicallContract = MULTICALL.deployed()
+    const multicallContract = await MULTICALL.deployed()
     await deployer.deploy(WETH9);
     const weth9Contract = await  WETH9.deployed()
     await deployer.deploy(ROUTER, contracts.factoryAddress, weth9Contract.address);
@@ -15,7 +15,6 @@ module.exports = async function(deployer) {
       wethAddress: weth9Contract.address,
       routerAddress: routerContract.address,
       multicallAddress: multicallContract.address
-
     }), 'utf-8');
   };
   
