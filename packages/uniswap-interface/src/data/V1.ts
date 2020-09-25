@@ -24,6 +24,7 @@ import { NEVER_RELOAD, useSingleCallResult, useSingleContractMultipleData } from
 import { useETHBalances, useTokenBalance, useTokenBalances } from '../state/wallet/hooks'
 
 export function useV1ExchangeAddress(tokenAddress?: string): string | undefined {
+  return // DG: disable checking V1 exchange
   const contract = useV1FactoryContract()
 
   const inputs = useMemo(() => [tokenAddress], [tokenAddress])
