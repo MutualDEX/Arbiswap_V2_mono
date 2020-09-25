@@ -5,12 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.1.0",
-    "arb-ethers-web3-bridge": "^0.7.3"
+    "arb-ethers-web3-bridge": "^0.7.3",
+    "solidity-bytes-utils": "^0.0.9"
   },
-  "scripts":{
+  "scripts": {
     "migrate": "truffle migrate --reset",
-    "migrate_local": "npx truffle migrate --reset --network local_arbitrum",
-    "migrate_remote": "npx truffle migrate --reset --network remote_arbitrum"
-
+    "migrate_local": "truffle migrate --reset --network local_arbitrum",
+    "migrate_remote": "truffle migrate --reset --network remote_arbitrum"
   }
 }

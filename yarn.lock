@@ -2646,7 +2646,7 @@
     ethereumjs-wallet "^0.6.3"
     source-map-support "^0.5.19"
 
-"@truffle/hdwallet-provider@^1.1.0":
+"@truffle/hdwallet-provider@^1.1.0", "@truffle/hdwallet-provider@latest":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@truffle/hdwallet-provider/-/hdwallet-provider-1.1.0.tgz#caca30225ee18c69fdd6403b4de23ca316796922"
   integrity sha512-hblrGs0w/S8Ij7BrmUju6GEK35NWQs2Hxc6SMBrz4chlwd9vcBzMWCGoCtYwYOi2d6o9jOv17+bLk9KNlTZR8g==
@@ -16957,6 +16957,13 @@ solc@^0.6.3:
     require-from-string "^2.0.0"
     semver "^5.5.0"
     tmp "0.0.33"
+
+solidity-bytes-utils@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/solidity-bytes-utils/-/solidity-bytes-utils-0.0.9.tgz#c37ff4abb338d71443859b3eca3382c113383a81"
+  integrity sha512-ApGN/l2XlK8hL4JxkCg3ilwTMPh+PB7CN33imDMpsZoJyhTdXV3tUWCbAKYoa69Zd1mc5oIyYdTRGwsqGRW3bQ==
+  dependencies:
+    "@truffle/hdwallet-provider" latest
 
 sort-keys@^1.0.0:
   version "1.1.2"
