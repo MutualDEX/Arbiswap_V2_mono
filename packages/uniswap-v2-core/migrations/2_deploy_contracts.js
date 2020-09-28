@@ -9,9 +9,12 @@ module.exports = async function(deployer, network, accounts) {
   await deployer.deploy(UniswapV2ERC20);
 
   const factoryContract = await UniswapV2Factory.deployed()
+  const tokenContract = await UniswapV2ERC20.deployed()
+
   fs.writeFileSync('../../packages/uniswap-sdk/contract_addresses.json',JSON.stringify({
     ...contracts,
-    factoryAddress: factoryContract.address
+    factoryAddress: factoryContract.address,
+    testTokenAddress: tokenContract.address
 
   }), 'utf-8');
 };
