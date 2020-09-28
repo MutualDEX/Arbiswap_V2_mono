@@ -8,6 +8,7 @@ import './libraries/UniswapV2Library.sol';
 import './libraries/SafeMath.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
+import "solidity-bytes-utils/contracts/BytesLib.sol";
 
 contract UniswapV2Router02 is IUniswapV2Router02 {
     using SafeMath for uint;
@@ -15,6 +16,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
 
     address public immutable override factory;
     address public immutable override WETH;
+    using BytesLib for bytes;
 
     modifier ensure(uint deadline) {
         require(deadline >= block.timestamp, 'UniswapV2Router: EXPIRED');
@@ -82,7 +84,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountETHMin,
         address to,
         uint deadline
-    ) external virtual override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
+    ) public virtual override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
         (amountToken, amountETH) = _addLiquidity(
             token,
             WETH,
@@ -98,6 +100,18 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         liquidity = IUniswapV2Pair(pair).mint(to);
         // refund dust eth, if any
         if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+    }
+
+    function addLiquidityETHBytes(
+        bytes calldata args
+    ) external override payable returns (uint amountToken, uint amountETH, uint liquidity) {
+        address token = args.toAddress(0);
+        uint amountTokenDesired = args.toUint(20);
+        uint amountTokenMin = args.toUint(52);
+        uint amountEthMin = args.toUint(84);
+        address to = args.toAddress(116);
+        uint deadline = args.toUint(136);
+        return addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountEthMin, to, deadline);
     }
 
     // **** REMOVE LIQUIDITY ****
