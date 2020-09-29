@@ -43,5 +43,5 @@ interface IUniswapV2Router02 is IUniswapV2Router01 {
     ) external;
     function addLiquidityETHBytes(
         bytes calldata args
-    ) external virtual payable returns (uint amountToken, uint amountETH, uint liquidity);
+    ) external payable returns (uint amountToken, uint amountETH, uint liquidity);
 }

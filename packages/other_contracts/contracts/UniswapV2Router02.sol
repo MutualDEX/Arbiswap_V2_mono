@@ -77,19 +77,20 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
         liquidity = IUniswapV2Pair(pair).mint(to);
     }
-    function addLiquidityETH(
+    function _addLiquidityETH(
         address token,
         uint amountTokenDesired,
         uint amountTokenMin,
         uint amountETHMin,
         address to,
-        uint deadline
-    ) public virtual override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
+        uint deadline,
+        uint value
+    ) internal ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
         (amountToken, amountETH) = _addLiquidity(
             token,
             WETH,
             amountTokenDesired,
-            msg.value,
+            value,
             amountTokenMin,
             amountETHMin
         );
@@ -99,19 +100,31 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         assert(IWETH(WETH).transfer(pair, amountETH));
         liquidity = IUniswapV2Pair(pair).mint(to);
         // refund dust eth, if any
-        if (msg.value > amountETH) TransferHelper.safeTransferETH(msg.sender, msg.value - amountETH);
+        if (value > amountETH) TransferHelper.safeTransferETH(msg.sender, value - amountETH);
+    }
+
+    
+    function addLiquidityETH(
+        address token,
+        uint amountTokenDesired,
+        uint amountTokenMin,
+        uint amountETHMin,
+        address to,
+        uint deadline
+    ) external virtual override payable ensure(deadline) returns (uint amountToken, uint amountETH, uint liquidity) {
+        return _addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountETHMin, to, deadline, msg.value);
     }
 
     function addLiquidityETHBytes(
         bytes calldata args
-    ) external override payable returns (uint amountToken, uint amountETH, uint liquidity) {
+    ) external virtual override payable returns (uint amountToken, uint amountETH, uint liquidity) {
         address token = args.toAddress(0);
         uint amountTokenDesired = args.toUint(20);
         uint amountTokenMin = args.toUint(52);
         uint amountEthMin = args.toUint(84);
         address to = args.toAddress(116);
         uint deadline = args.toUint(136);
-        return addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountEthMin, to, deadline);
+        return _addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountEthMin, to, deadline, msg.value);
     }
 
     // **** REMOVE LIQUIDITY ****
