@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { TransactionResponse } from '@ethersproject/providers'
-import { Currency, currencyEquals, ETHER, TokenAmount, WETH } from '@uniswap/sdk'
+import { Currency, currencyEquals, ETHER, TokenAmount, WETH, serializeParams } from '@uniswap/sdk'
 import React, { useCallback, useContext, useState } from 'react'
 import { Plus } from 'react-feather'
 import ReactGA from 'react-ga'
@@ -139,20 +139,20 @@ export default function AddLiquidity({
 
     let estimate,
       method: (...args: any) => Promise<TransactionResponse>,
-      args: Array<string | string[] | number>,
+      args: Array<string | string[] | number> | Uint8Array,
       value: BigNumber | null
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsETH = currencyB === ETHER
-      estimate = router.estimateGas.addLiquidityETH
-      method = router.addLiquidityETH
-      args = [
+      estimate = router.estimateGas.addLiquidityETHBytes
+      method = router.addLiquidityETHBytes
+      args = serializeParams([
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
         account,
         deadlineFromNow
-      ]
+      ])
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
@@ -171,9 +171,9 @@ export default function AddLiquidity({
     }
 
     setAttemptingTxn(true)
-    await estimate(...args, value ? { value } : {})
+    await estimate(args, value ? { value } : {})
       .then(estimatedGasLimit =>
-        method(...args, {
+        method(args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit)
         }).then(response => {
