@@ -6,8 +6,7 @@ import { serializeParams } from '@uniswap/sdk';
 
 export const arbProvider = new ethers.providers.JsonRpcProvider(consts.arbProviderUrl);
 
-const tokenAddress =  consts.tokenAddress;
-const routerAddress =  consts.routerAddress;
+const { tokenAddress, routerAddress } = consts
 
 const signer = new ethers.Wallet( 
     consts.walletKey, // key
@@ -97,4 +96,52 @@ const addLiquidityBytes = async ()=>{
 
 }
 
+const swapExactETHForTokens = async ()=>{
+    // await approveAndFund()
+    const etherVal =  utils.parseEther("0.01")
+    const tokenVal = utils.parseEther("2")
+
+    const tx = await  routerContract.swapExactETHForTokens(
+        etherVal.toString(),
+        ["0xe541e4C7888d25BF92EeD78134Ed6A9A77898254", consts.tokenAddress],
+        signer.address, 
+        Math.ceil(Date.now() / 1000) + 120000,
+       {
+            value: etherVal
+        }
+    )
+    console.info('res', tx)
+    const res = await tx.wait()
+    console.info(res)
+    console.info('success!')
+
+
+} 
+
+
+const swapExactETHForTokensBytes = async ()=>{
+    // await approveAndFund()
+    const etherVal =  utils.parseEther("0.01")
+    const tokenVal = utils.parseEther("2")
+
+    const tx = await  routerContract.swapExactETHForTokensBytes(
+        serializeParams([
+        etherVal.toString(),
+        [consts.tokenAddress],
+        signer.address, 
+        Math.ceil(Date.now() / 1000) + 120000,
+        ]),
+       {
+            value: etherVal
+        }
+    )
+    console.info('res', tx)
+    const res = await tx.wait()
+    console.info(res)
+    console.info('success!')
+
+
+} 
+// swapExactETHForTokens()
+// swapExactETHForTokensBytes()
 addLiquidityBytes()

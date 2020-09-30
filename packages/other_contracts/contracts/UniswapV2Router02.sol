@@ -277,20 +277,50 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         );
         _swap(amounts, path, to);
     }
-    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
+function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
         external
         virtual
         override
         payable
+        returns (uint[] memory amounts)
+    {
+        return _swapExactETHForTokens(amountOutMin, path, to, deadline, msg.value);
+    }
+
+function _swapExactETHForTokens(uint amountOutMin, address[] memory path, address to, uint deadline, uint value)
+        internal
         ensure(deadline)
         returns (uint[] memory amounts)
     {
         require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsOut(factory, msg.value, path);
+        amounts = UniswapV2Library.getAmountsOut(factory, value, path);
         require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
         IWETH(WETH).deposit{value: amounts[0]}();
         assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
         _swap(amounts, path, to);
+    }
+function swapExactETHForTokensBytes(bytes calldata args)
+        external
+        virtual
+        override
+        payable
+        returns (uint[] memory amounts)
+    { 
+        uint amountOutMin = args.toUint(0);
+        // Caller should leave out WETH from path (it's path[0] anyway)
+        uint8 pathLength = args.toUint8(32); 
+        address[] memory path  =  new address[](pathLength + 1);
+        path[0] = WETH;
+        for (uint i; i < pathLength; i++) {
+            path[i + 1] = args.toAddress(33 + i*20);
+        }
+        uint cursor = 33 + pathLength*20;
+
+        address to = args.toAddress(cursor);
+        cursor = cursor + 20;
+
+        uint deadline = args.toUint(cursor);
+        return _swapExactETHForTokens(amountOutMin, path, to, deadline, msg.value);
     }
     function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
         external
