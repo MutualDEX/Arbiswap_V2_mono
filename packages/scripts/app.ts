@@ -3,17 +3,21 @@ import { abi as UniswapV2Router02ABI } from 'other_contracts/build/contracts/Uni
 import { abi as ERC20_ABI } from '@uniswap/v2-core/build/contracts/UniswapV2ERC20.json'
 import consts from './constants'
 import { serializeParams } from '@uniswap/sdk';
+import { BenchmarkSuite } from 'arb-benchmark-suite'
 
-export const arbProvider = new ethers.providers.JsonRpcProvider(consts.arbProviderUrl);
+const { tokenAddress, routerAddress, ethProviderUrl, arbProviderUrl } = consts
 
-const { tokenAddress, routerAddress } = consts
+export const ethProvider =     new ethers.providers.JsonRpcProvider(ethProviderUrl)
+export const arbProvider = new ethers.providers.JsonRpcProvider(arbProviderUrl);
+
 
 const signer = new ethers.Wallet( 
     consts.walletKey, // key
     arbProvider )
+console.info('Using address', signer.address)
 
 const routerContract = new Contract(
-    routerAddress, // router address
+    routerAddress, 
     UniswapV2Router02ABI,
     signer
 );
@@ -119,12 +123,12 @@ const swapExactETHForTokens = async ()=>{
 } 
 
 
-const swapExactETHForTokensBytes = async ()=>{
+const swapExactETHForTokensBytes = async (nonce)=>{
     // await approveAndFund()
     const etherVal =  utils.parseEther("0.01")
     const tokenVal = utils.parseEther("2")
 
-    const tx = await  routerContract.swapExactETHForTokensBytes(
+    return await  routerContract.swapExactETHForTokensBytes(
         serializeParams([
         etherVal.toString(),
         [consts.tokenAddress],
@@ -132,16 +136,27 @@ const swapExactETHForTokensBytes = async ()=>{
         Math.ceil(Date.now() / 1000) + 120000,
         ]),
        {
-            value: etherVal
+            value: etherVal,
+            nonce: nonce
         }
     )
-    console.info('res', tx)
-    const res = await tx.wait()
-    console.info(res)
-    console.info('success!')
+}
 
+const benchmarks = new BenchmarkSuite (
+ethProvider,
+arbProvider,
+"0x175c0b09453cbb44fb7f56ba5638c43427aa6a85"
+)
 
-} 
+benchmarks.run([{
+    method: swapExactETHForTokensBytes,
+    count: 5,
+    name: "swap eth",
+    initBatch: approveAndFund,
+    getNonce: ()=>( signer.getTransactionCount())
+}])
+
 // swapExactETHForTokens()
 // swapExactETHForTokensBytes()
-addLiquidityBytes()
+// addLiquidityBytes()
+// approveAndFund()

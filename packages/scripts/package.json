@@ -4,9 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@uniswap/sdk": "3.0.2",
+    "@uniswap/sdk": "3.0.3",
     "@uniswap/v2-core": "1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
+    "arb-benchmark-suite": "^1.0.3",
     "ethers": "^4.0.47"
   },
   "scripts": {

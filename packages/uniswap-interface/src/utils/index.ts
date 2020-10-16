@@ -25,11 +25,11 @@ const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   4: 'rinkeby.',
   5: 'goerli.',
   42: 'kovan.',
-  111615170699283: 'arbitrum' 
+  215728282823301: 'arbitrum' 
 }
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
-  const prefix = chainId === 111615170699283 ? "https://explorer.offchainlabs.com/#" :  `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
+  const prefix = chainId === 215728282823301 ? "https://explorer.offchainlabs.com/#" :  `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
 
   switch (type) {
     case 'transaction': {
