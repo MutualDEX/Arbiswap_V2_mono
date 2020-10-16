@@ -115,7 +115,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         return _addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountETHMin, to, deadline, msg.value);
     }
 
-    function addLiquidityETHBytes(
+    function addLiquidityETH(
         bytes calldata args
     ) external virtual override payable returns (uint amountToken, uint amountETH, uint liquidity) {
         address token = args.toAddress(0);

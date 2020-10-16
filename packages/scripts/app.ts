@@ -1,5 +1,7 @@
 import { ethers, Contract, utils, constants } from "ethers";
-import { abi as UniswapV2Router02ABI } from 'other_contracts/build/contracts/UniswapV2Router02.json'
+// import { abi as UniswapV2Router02ABI } from 'other_contracts/build/contracts/UniswapV2Router02.json'
+import { abi as UniswapV2Router02ABI } from 'other_contracts/build/contracts/IUniswapV2Router02.json'
+
 import { abi as ERC20_ABI } from '@uniswap/v2-core/build/contracts/UniswapV2ERC20.json'
 import consts from './constants'
 import { serializeParams } from '@uniswap/sdk';
@@ -33,6 +35,8 @@ const approveAndFund = async  ()=>{
 
     const approveTx =  await tokenContract.approve(routerAddress, constants.MaxUint256.div(2))
     await approveTx.wait()
+    console.info('done');
+    
 }
 
 const addLiquidity = async ()=>{
@@ -67,11 +71,11 @@ const addLiquidity = async ()=>{
 }
 
 
-const addLiquidityBytes = async ()=>{
-    await approveAndFund()
-    const etherVal =  utils.parseEther("0.1")
+const addLiquidityBytes = async (nonce)=>{
+    // await approveAndFund()
+    const etherVal =  utils.parseEther("0.0001")
     const tokenVal = utils.parseEther("20")
-
+    
 
     const bytes = serializeParams([
         tokenAddress,
@@ -81,22 +85,25 @@ const addLiquidityBytes = async ()=>{
         signer.address,
         Math.ceil(Date.now() / 1000) + 120000
     ])
-    routerContract.addLiquidityETHBytes(bytes,  
+    return routerContract.addLiquidityETH(bytes,  
         {
-            value: new ethers.utils.BigNumber(etherVal)
+            value: new ethers.utils.BigNumber(etherVal),
+            nonce
         } 
-    ).then((tx)=> {
-        console.info('response:');
-        console.info(tx);
+    )
+    
+    // .then((tx)=> {
+    //     console.info('response:');
+    //     console.info(tx);
         
-        tx.wait().then((receipt)=>{
-            console.info(receipt);
-            console.info('success!!')
+    //     tx.wait().then((receipt)=>{
+    //         console.info(receipt);
+    //         console.info('success!!')
 
-        }).catch((err)=>{
-            console.warn(err);
-        })
-    })
+    //     }).catch((err)=>{
+    //         console.warn(err);
+    //     })
+    // })
 
 }
 
@@ -126,7 +133,7 @@ const swapExactETHForTokens = async ()=>{
 const swapExactETHForTokensBytes = async (nonce)=>{
     // await approveAndFund()
     const etherVal =  utils.parseEther("0.01")
-    const tokenVal = utils.parseEther("2")
+    // const tokenVal = utils.parseEther("2")
 
     return await  routerContract.swapExactETHForTokensBytes(
         serializeParams([
@@ -149,11 +156,11 @@ arbProvider,
 )
 
 benchmarks.run([{
-    method: swapExactETHForTokensBytes,
+    method: addLiquidityBytes,
     count: 5,
-    name: "swap eth",
-    initBatch: approveAndFund,
-    getNonce: ()=>( signer.getTransactionCount())
+    name: "add ;ilq eth",
+    getNonce: ()=>( signer.getTransactionCount()),
+    // initBatch: approveAndFund
 }])
 
 // swapExactETHForTokens()
