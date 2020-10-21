@@ -54,7 +54,8 @@ module.exports = {
         )
       },
       network_id: '*',
-      gasPrice: 0
+      gasPrice: 0,
+      gas: 20000000
   },
   local_arbitrum: {
     provider: function () {

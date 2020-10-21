@@ -9,6 +9,7 @@ import './libraries/SafeMath.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
 import "solidity-bytes-utils/contracts/BytesLib.sol";
+import './interfaces//ArbSys.sol';
 
 contract UniswapV2Router02 is IUniswapV2Router02 {
     using SafeMath for uint;
@@ -16,6 +17,8 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
 
     address public immutable override factory;
     address public immutable override WETH;
+    address public constant arbSys = address(100);
+    
     using BytesLib for bytes;
 
     modifier ensure(uint deadline) {
@@ -118,12 +121,33 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
     function addLiquidityETH(
         bytes calldata args
     ) external virtual override payable returns (uint amountToken, uint amountETH, uint liquidity) {
-        address token = args.toAddress(0);
-        uint amountTokenDesired = args.toUint(20);
-        uint amountTokenMin = args.toUint(52);
-        uint amountEthMin = args.toUint(84);
-        address to = args.toAddress(116);
-        uint deadline = args.toUint(136);
+        uint cursor = 0;
+        
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        address token; 
+        (token, cursor ) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+
+        uint amountTokenDesired = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountTokenMin = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountEthMin = args.toUint(cursor);
+        cursor += 32;
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+
+        address to; 
+        (to, cursor ) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+
+        uint deadline = args.toUint(cursor);
+        cursor += 32;
+
         return _addLiquidityETH(token, amountTokenDesired, amountTokenMin, amountEthMin, to, deadline, msg.value);
     }
 
@@ -249,6 +273,23 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
             );
         }
     }
+
+
+    function _swapExactTokensForTokens(
+        uint amountIn,
+        uint amountOutMin,
+        address[] memory path,
+        address to,
+        uint deadline
+    ) internal ensure(deadline) returns (uint[] memory amounts) {
+        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
+        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+        TransferHelper.safeTransferFrom(
+            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
+        );
+        _swap(amounts, path, to);
+    }
+
     function swapExactTokensForTokens(
         uint amountIn,
         uint amountOutMin,
@@ -256,76 +297,166 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         address to,
         uint deadline
     ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        amounts = UniswapV2Library.getAmountsOut(factory, amountIn, path);
-        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+        return _swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline);
+    }
+
+    function swapExactTokensForTokens(
+       bytes calldata args
+    ) external virtual override  returns (uint[] memory amounts) {
+        uint  cursor = 0;
+
+        uint amountIn = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountOutMin = args.toUint(cursor);
+        cursor += 32; 
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        address[] memory path  =  new address[](pathLength);
+        for (uint i; i < pathLength; i++) {
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[i] = addressToAdd;
+        }
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        address to;
+        (to, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+        uint deadline = args.toUint(cursor);
+        cursor += 32;
+
+
+        return _swapExactTokensForTokens(amountIn, amountOutMin, path, to, deadline);
+    }
+
+    
+    function _swapTokensForExactTokens(
+        uint amountOut,
+        uint amountInMax,
+        address[] memory path,
+        address to,
+        uint deadline
+    ) internal ensure(deadline) returns (uint[] memory amounts) {
+        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
+        require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
         TransferHelper.safeTransferFrom(
             path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
         );
         _swap(amounts, path, to);
     }
+
     function swapTokensForExactTokens(
         uint amountOut,
         uint amountInMax,
         address[] calldata path,
         address to,
         uint deadline
-    ) external virtual override ensure(deadline) returns (uint[] memory amounts) {
-        amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-        require(amounts[0] <= amountInMax, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
-        TransferHelper.safeTransferFrom(
-            path[0], msg.sender, UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]
-        );
-        _swap(amounts, path, to);
-    }
-function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
-        external
-        virtual
-        override
-        payable
-        returns (uint[] memory amounts)
-    {
-        return _swapExactETHForTokens(amountOutMin, path, to, deadline, msg.value);
+    ) external virtual override returns (uint[] memory amounts) {
+        return _swapTokensForExactTokens(amountOut, amountInMax, path, to, deadline);
     }
 
-function _swapExactETHForTokens(uint amountOutMin, address[] memory path, address to, uint deadline, uint value)
-        internal
-        ensure(deadline)
-        returns (uint[] memory amounts)
-    {
-        require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
-        amounts = UniswapV2Library.getAmountsOut(factory, value, path);
-        require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
-        IWETH(WETH).deposit{value: amounts[0]}();
-        assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
-        _swap(amounts, path, to);
+    function swapTokensForExactTokens(
+        bytes calldata args
+    ) external virtual override returns (uint[] memory amounts) {
+        uint  cursor = 0;
+
+        uint amountOut = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountInMax = args.toUint(cursor);
+        cursor += 32; 
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        address[] memory path  =  new address[](pathLength);
+        for (uint i; i < pathLength; i++) {
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[i] = addressToAdd;
+        }
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        address to;
+        (to, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+        uint deadline = args.toUint(cursor);
+        cursor += 32;
+        return _swapTokensForExactTokens(amountOut, amountInMax, path, to, deadline);
+
     }
-function swapExactETHForTokensBytes(bytes calldata args)
+
+
+    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
+            external
+            virtual
+            override
+            payable
+            returns (uint[] memory amounts)
+        {
+            return _swapExactETHForTokens(amountOutMin, path, to, deadline, msg.value);
+        }
+
+    function _swapExactETHForTokens(uint amountOutMin, address[] memory path, address to, uint deadline, uint value)
+            internal
+            ensure(deadline)
+            returns (uint[] memory amounts)
+        {
+            require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
+            amounts = UniswapV2Library.getAmountsOut(factory, value, path);
+            require(amounts[amounts.length - 1] >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
+            IWETH(WETH).deposit{value: amounts[0]}();
+            assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
+            _swap(amounts, path, to);
+        }
+    function swapExactETHForTokens(bytes calldata args)
         external
         virtual
         override
         payable
         returns (uint[] memory amounts)
     { 
-        uint amountOutMin = args.toUint(0);
+        uint cursor = 0; 
+        uint amountOutMin = args.toUint(cursor);
+        cursor += 32;
+
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+
         // Caller should leave out WETH from path (it's path[0] anyway)
-        uint8 pathLength = args.toUint8(32); 
+        uint8 pathLength = args.toUint8(cursor);
+        cursor += 1;
+
         address[] memory path  =  new address[](pathLength + 1);
         path[0] = WETH;
         for (uint i; i < pathLength; i++) {
-            path[i + 1] = args.toAddress(33 + i*20);
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[ i + 1 ] = addressToAdd;
         }
-        uint cursor = 33 + pathLength*20;
 
-        address to = args.toAddress(cursor);
-        cursor = cursor + 20;
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        
+        address to;
+        (to, cursor) =  lookupAndRegisterAddress(args, isRegistered, cursor);
 
         uint deadline = args.toUint(cursor);
         return _swapExactETHForTokens(amountOutMin, path, to, deadline, msg.value);
     }
-    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
-        external
-        virtual
-        override
+
+
+
+    function _swapTokensForExactETH(uint amountOut, uint amountInMax, address[] memory path, address to, uint deadline)
+        internal
         ensure(deadline)
         returns (uint[] memory amounts)
     {
@@ -339,10 +470,59 @@ function swapExactETHForTokensBytes(bytes calldata args)
         IWETH(WETH).withdraw(amounts[amounts.length - 1]);
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
-    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
+
+    function swapTokensForExactETH(bytes calldata args)
         external
         virtual
         override
+        returns (uint[] memory amounts)
+    {   
+        uint cursor = 0;
+
+        uint amountOut = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountInMax = args.toUint(cursor);
+        cursor += 32;
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        // Caller should leave out WETH from path (it's end of path anyway)
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+
+        address[] memory path  =  new address[](pathLength + 1);
+        for (uint i; i < pathLength; i++) {
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[i] = addressToAdd;
+        }
+        path[pathLength] = WETH;
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+
+         address to;
+         (to, cursor) =  lookupAndRegisterAddress(args, isRegistered, cursor);
+        
+        uint deadline = args.toUint(cursor);
+
+        return _swapTokensForExactETH (amountOut, amountInMax,  path, to, deadline);
+    }
+
+    function swapTokensForExactETH(uint amountOut, uint amountInMax, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        returns (uint[] memory amounts)
+    {
+        return _swapTokensForExactETH (amountOut, amountInMax, path, to, deadline);
+    }
+
+
+
+    function _swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] memory path, address to, uint deadline)
+        internal
         ensure(deadline)
         returns (uint[] memory amounts)
     {
@@ -356,23 +536,118 @@ function swapExactETHForTokensBytes(bytes calldata args)
         IWETH(WETH).withdraw(amounts[amounts.length - 1]);
         TransferHelper.safeTransferETH(to, amounts[amounts.length - 1]);
     }
-    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
+
+    function swapExactTokensForETH(uint amountIn, uint amountOutMin, address[] calldata path, address to, uint deadline)
         external
         virtual
         override
-        payable
+        returns (uint[] memory amounts)
+    {
+        return _swapExactTokensForETH(amountIn, amountOutMin, path, to, deadline);
+    }
+
+    function swapExactTokensForETH(bytes calldata args)
+        external
+        virtual
+        override
+        returns (uint[] memory amounts)
+    {           
+        uint  cursor = 0;
+
+        uint amountIn = args.toUint(cursor);
+        cursor += 32;
+
+        uint amountOutMin = args.toUint(cursor);
+        cursor += 32; 
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        // caller leaves out weth
+        address[] memory path  =  new address[](pathLength + 1);
+        for (uint i; i < pathLength; i++) {
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[i] = addressToAdd;
+        }
+        path[pathLength] = WETH;
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        address to;
+        (to, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+        uint deadline = args.toUint(cursor);
+        cursor += 32;
+
+        return _swapExactTokensForETH(amountIn, amountOutMin, path, to, deadline);
+
+    }
+
+
+
+    function _swapETHForExactTokens(uint amountOut, address[] memory path, address to, uint deadline, uint value)
+        internal
         ensure(deadline)
         returns (uint[] memory amounts)
     {
         require(path[0] == WETH, 'UniswapV2Router: INVALID_PATH');
         amounts = UniswapV2Library.getAmountsIn(factory, amountOut, path);
-        require(amounts[0] <= msg.value, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
+        require(amounts[0] <= value, 'UniswapV2Router: EXCESSIVE_INPUT_AMOUNT');
         IWETH(WETH).deposit{value: amounts[0]}();
         assert(IWETH(WETH).transfer(UniswapV2Library.pairFor(factory, path[0], path[1]), amounts[0]));
         _swap(amounts, path, to);
         // refund dust eth, if any
-        if (msg.value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, msg.value - amounts[0]);
+        if (value > amounts[0]) TransferHelper.safeTransferETH(msg.sender, value - amounts[0]);
     }
+    function swapETHForExactTokens(uint amountOut, address[] calldata path, address to, uint deadline)
+        external
+        virtual
+        override
+        payable
+        returns (uint[] memory amounts)
+    {
+        return _swapETHForExactTokens(amountOut, path, to, deadline, msg.value);
+    }
+        function swapETHForExactTokens(bytes calldata args)
+        external
+        virtual
+        override
+        payable
+        returns (uint[] memory amounts)
+    {        
+        uint  cursor = 0;
+
+
+        uint amountOut = args.toUint(cursor);
+        cursor += 32; 
+
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        address[] memory path  =  new address[](pathLength + 1);
+        // caller leaves out WETH
+        path[0] = WETH;
+        for (uint i; i < pathLength; i++) {
+            address addressToAdd; 
+            (addressToAdd, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+            path[ i +1 ] = addressToAdd;
+        }
+
+        isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        address to;
+        (to, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
+
+        uint deadline = args.toUint(cursor);
+        cursor += 32;
+
+        return _swapETHForExactTokens(amountOut, path, to, deadline, msg.value);
+
+    }
+
 
     // **** SWAP (supporting fee-on-transfer tokens) ****
     // requires the initial amount to have already been sent to the first pair
@@ -455,6 +730,22 @@ function swapExactETHForTokensBytes(bytes calldata args)
         require(amountOut >= amountOutMin, 'UniswapV2Router: INSUFFICIENT_OUTPUT_AMOUNT');
         IWETH(WETH).withdraw(amountOut);
         TransferHelper.safeTransferETH(to, amountOut);
+    }
+
+
+    function lookupAndRegisterAddress(bytes memory args, uint8 isRegistered, uint oldCursor ) internal returns(address _address, uint newCursor){
+        require(isRegistered <= 1, "UniswapV2Router, Invalid address-registered status");
+        address _address; 
+        if(isRegistered == 1){
+            _address = ArbSys(arbSys).addressTable_lookupIndex(  args.toUint32(oldCursor));
+            require(_address != address(0), "UniswapV2Router: Address not registered in table");
+            return (_address, oldCursor + 4);
+        } else {
+            _address =  args.toAddress(oldCursor);
+            ArbSys(arbSys).addressTable_lookupAddress(_address, true);
+            return (_address, oldCursor + 20);
+        }
+
     }
 
     // **** LIBRARY FUNCTIONS ****

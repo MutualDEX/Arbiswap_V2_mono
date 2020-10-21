@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Contract } from '@ethersproject/contracts'
-import { JSBI, Percent, Router, SwapParameters, Trade, TradeType } from '@uniswap/sdk'
+import { JSBI, Percent, Router, SwapParameters, Trade, TradeType, contractAddresses } from '@uniswap/sdk'
 import { useMemo } from 'react'
 import { BIPS_BASE, DEFAULT_DEADLINE_FROM_NOW, INITIAL_ALLOWED_SLIPPAGE } from '../constants'
 import { getTradeVersion, useV1TradeExchangeAddress } from '../data/V1'
@@ -8,10 +8,13 @@ import { useTransactionAdder } from '../state/transactions/hooks'
 import { calculateGasMargin, getRouterContract, isAddress, shortenAddress } from '../utils'
 import isZero from '../utils/isZero'
 import v1SwapArguments from '../utils/v1SwapArguments'
+import serializeAndLookupIndices from '../utils/serializeAndLookupIndices'
+
 import { useActiveWeb3React } from './index'
 import { useV1ExchangeContract } from './useContract'
 import useENS from './useENS'
 import { Version } from './useToggledVersion'
+const WETH = contractAddresses.wethAddress
 
 export enum SwapCallbackState {
   INVALID,
@@ -35,6 +38,33 @@ interface FailedCall {
 }
 
 type EstimatedSwapCall = SuccessfulCall | FailedCall
+
+
+const destructureCall = async (call: SwapCall) => {
+  let {
+    parameters: { methodName, args, value },
+    contract
+  } = call
+
+  let aargs:any = args
+  const bytesMethod = `${methodName}(bytes)`;
+  if (contract[bytesMethod]){
+    methodName = bytesMethod
+    aargs = Array.isArray(aargs) && aargs.map((arg)=>{
+      if (Array.isArray(arg)){
+        return arg.filter((s)=> s!== WETH)
+      }
+      return arg
+    }) 
+    
+    const bytes = await serializeAndLookupIndices(aargs)
+    aargs = [bytes] 
+  } else {
+    methodName = Object.keys(contract).find((key)=> key.startsWith(methodName) && methodName !== bytesMethod ) || methodName
+  }
+  
+  return { methodName, args: aargs, value, contract }
+}
 
 /**
  * Returns the swap calls that can be used to make the trade
@@ -79,16 +109,16 @@ function useSwapCallArguments(
           })
         )
 
-        if (trade.tradeType === TradeType.EXACT_INPUT) {
-          swapMethods.push(
-            Router.swapCallParameters(trade, {
-              feeOnTransfer: true,
-              allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
-              recipient,
-              ttl: deadline
-            })
-          )
-        }
+        // if (trade.tradeType === TradeType.EXACT_INPUT) {
+        //   swapMethods.push(
+        //     Router.swapCallParameters(trade, {
+        //       feeOnTransfer: true,
+        //       allowedSlippage: new Percent(JSBI.BigInt(allowedSlippage), BIPS_BASE),
+        //       recipient,
+        //       ttl: deadline
+        //     })
+        //   )
+        // }
         break
       case Version.v1:
         swapMethods.push(
@@ -139,11 +169,9 @@ export function useSwapCallback(
       state: SwapCallbackState.VALID,
       callback: async function onSwap(): Promise<string> {
         const estimatedCalls: EstimatedSwapCall[] = await Promise.all(
-          swapCalls.map(call => {
-            const {
-              parameters: { methodName, args, value },
-              contract
-            } = call
+          swapCalls.map( async call => {
+            
+            const  { methodName, args, value, contract }  =  await destructureCall(call)
             const options = !value || isZero(value) ? {} : { value }
 
             return contract.estimateGas[methodName](...args, options)
@@ -192,13 +220,12 @@ export function useSwapCallback(
         }
 
         const {
-          call: {
-            contract,
-            parameters: { methodName, args, value }
-          },
+          call,
           gasEstimate
         } = successfulEstimation
 
+        const  { methodName, args, value, contract }  =  await destructureCall(call)
+        console.info('*** calling method:', methodName);
         return contract[methodName](...args, {
           gasLimit: calculateGasMargin(gasEstimate),
           ...(value && !isZero(value) ? { value, from: account } : { from: account })

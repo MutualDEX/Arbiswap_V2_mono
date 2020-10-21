@@ -2,7 +2,7 @@ import JSBI from 'jsbi'
 import * as contractAddresses from '../contract_addresses.json'
 // exports for external consumption
 
-export { contractAddresses }; 
+export { contractAddresses }
 export type BigintIsh = JSBI | bigint | string
 
 export enum ChainId {

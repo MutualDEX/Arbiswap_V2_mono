@@ -17,4 +17,4 @@ export * from './entities'
 export * from './router'
 export * from './fetcher'
 
-export  { serializeParams } from './byteSerializeParams'
+export { serializeParams, initSerializeAndLookUpIndices } from './byteSerializeParams'

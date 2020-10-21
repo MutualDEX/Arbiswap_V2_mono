@@ -1,4 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
+
+
 import { TransactionResponse } from '@ethersproject/providers'
 import { Currency, currencyEquals, ETHER, TokenAmount, WETH, serializeParams } from '@uniswap/sdk'
 import React, { useCallback, useContext, useState } from 'react'
@@ -30,6 +32,8 @@ import { useTransactionAdder } from '../../state/transactions/hooks'
 import { useIsExpertMode, useUserDeadline, useUserSlippageTolerance } from '../../state/user/hooks'
 import { TYPE } from '../../theme'
 import { calculateGasMargin, calculateSlippageAmount, getRouterContract } from '../../utils'
+import serializeAndLookupIndices from '../../utils/serializeAndLookupIndices'
+
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
 import { wrappedCurrency } from '../../utils/wrappedCurrency'
 import AppBody from '../AppBody'
@@ -145,14 +149,16 @@ export default function AddLiquidity({
       const tokenBIsETH = currencyB === ETHER
       estimate = router.estimateGas['addLiquidityETH(bytes)']
       method = router['addLiquidityETH(bytes)']
-      args = serializeParams([
+      console.warn('ADD LIQUIDITY ETH BYTES');
+      const unserializedArgs = [
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
         amountsMin[tokenBIsETH ? Field.CURRENCY_A : Field.CURRENCY_B].toString(), // token min
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
         account,
         deadlineFromNow
-      ])
+      ]      
+      args = await serializeAndLookupIndices(unserializedArgs)
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
