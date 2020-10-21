@@ -11,6 +11,6 @@
   },
   "lib": ["es2015"],
   "exclude": ["node_modules"],
-  "include": ["app.ts"]
+  "include": ["src/*"]
   
 }
