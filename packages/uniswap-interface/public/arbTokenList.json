@@ -1,0 +1,16 @@
+{
+    "name": "Arbitrum Testnet",
+    "logoURI": "./logo.png",
+    "keywords": ["defi", "uma", "yield"],
+    "timestamp": "2020-08-25T01:40:34.305Z",
+    "tokens": [
+      {
+        "chainId": 215728282823301,
+        "address": "0x10BAdBF489f95cAcbe1AB9866F4BFD251aAb4a97",
+        "name": "Uniswap v2",
+        "symbol": "UNI-V2",
+        "decimals": 18
+      }
+    ],
+    "version": { "major": 0, "minor": 0, "patch": 0 }
+  }
