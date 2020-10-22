@@ -6,9 +6,9 @@
     "tokens": [
       {
         "chainId": 215728282823301,
-        "address": "0x10BAdBF489f95cAcbe1AB9866F4BFD251aAb4a97",
-        "name": "Uniswap v2",
-        "symbol": "UNI-V2",
+        "address": "0xc8ae102c8c5fca72cd25ed05769847b3089d6667",
+        "name": "Goldman coins",
+        "symbol": "DZG",
         "decimals": 18
       }
     ],
