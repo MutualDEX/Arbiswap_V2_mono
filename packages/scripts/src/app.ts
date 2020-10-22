@@ -122,15 +122,8 @@ benchmarks.run([
     count: 1,
     name: "swapTokensForExactEthBytes test",
     getNonce: () => signer.getTransactionCount(),
-    // initBatch: approveAndFund
+     initBatch: approveAndFund
   },
-  // {
-  //     method: swapExactETHForTokensBytes,
-  //     count: 1,
-  //     name: "swap",
-  //     getNonce: ()=>( signer.getTransactionCount()),
-  //     initBatch: approveAndFund
-  // }
 ]);
 
 
