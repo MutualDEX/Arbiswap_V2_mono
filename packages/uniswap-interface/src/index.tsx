@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { NetworkContextName } from './constants'
 import './i18n'
 import App from './pages/App'
+import BridgedApp from './pages/BridgedApp'
 import store from './state'
 import ApplicationUpdater from './state/application/updater'
 import ListsUpdater from './state/lists/updater'
@@ -61,7 +62,7 @@ ReactDOM.render(
           <Updaters />
           <ThemeProvider>
             <ThemedGlobalStyle />
-            <App />
+          { window.ethereum ? <BridgedApp /> : <App/> }
           </ThemeProvider>
         </Provider>
       </Web3ProviderNetwork>

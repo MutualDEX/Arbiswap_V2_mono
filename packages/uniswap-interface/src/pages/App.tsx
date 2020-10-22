@@ -23,6 +23,7 @@ import Swap from './Swap'
 import Bridge from './Bridge'
 import { useArbTokenBridge } from 'token-bridge-sdk'
 import { ethers } from 'ethers-old'
+import { useActiveWeb3React } from '../hooks'
 
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import { useL1Provider4 } from '../hooks/useL1Provider'
@@ -61,21 +62,7 @@ const Marginer = styled.div`
   margin-top: 5rem;
 `
 
-export default function App() {
-  const ethProvider = useL1Provider4(process.env.REACT_APP_L1_URL as string)
-  // @ts-ignore
-  const arbProvider = new ethers.providers.Web3Provider(window.ethereum)
-  const arbSigner = arbProvider.getSigner(0)
-  const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken, add: addToken}, bridgeTokens} = useArbTokenBridge(  
-    // @ts-ignore
-    ethProvider,
-    arbProvider,
-    // TODO
-    "0x175c0b09453cbb44fb7f56ba5638c43427aa6a85",
-        // @ts-ignore
-    ethProvider.getSigner( window.ethereum?.selectedAddress),
-    arbSigner
-  )
+export default function App({bridge} : any) {
   
 
   return (
@@ -96,7 +83,7 @@ export default function App() {
                 <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                 <Route exact strict path="/find" component={PoolFinder} />
                 <Route exact strict path="/pool" component={Pool} />
-                <Route exact strict path="/bridge" component={()=> <Bridge withdrawEth={withdrawEth} withdrawToken={withdrawToken} bridgeTokens={bridgeTokens} addToken={addToken}/>} />
+               { bridge && <Route exact strict path="/bridge" component={()=> <Bridge withdrawEth={bridge.withdrawEth} withdrawToken={bridge.withdrawToken} bridgeTokens={bridge.bridgeTokens} addToken={bridge.addToken}/>} /> }
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
