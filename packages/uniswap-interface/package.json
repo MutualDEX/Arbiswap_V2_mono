@@ -109,8 +109,8 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@uniswap/sdk": "3.0.3",
-    "arb-provider-ethers": "^0.7.2",
+    "arb-provider-ethers": "0.7.2",
     "ethers-old": "npm:ethers@4.0.47",
-    "token-bridge-sdk": "^0.2.0"
+    "token-bridge-sdk": "0.2.6"
   }
 }

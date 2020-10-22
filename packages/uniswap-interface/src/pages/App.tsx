@@ -71,8 +71,9 @@ export default function App() {
     ethProvider,
     arbProvider,
     // TODO
-    "0xc68DCee7b8cA57F41D1A417103CB65836E99e013",
-    ethProvider.getSigner(0),
+    "0x175c0b09453cbb44fb7f56ba5638c43427aa6a85",
+        // @ts-ignore
+    ethProvider.getSigner( window.ethereum?.selectedAddress),
     arbSigner
   )
   

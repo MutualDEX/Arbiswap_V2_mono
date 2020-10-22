@@ -47,7 +47,9 @@ import Loader from '../../components/Loader'
 import styled from 'styled-components'
 import { darken } from 'polished'
 import { TokenType } from 'token-bridge-sdk'
+import { useTransactionAdder } from '../../state/transactions/hooks'
 
+import { TransactionResponse } from '@ethersproject/providers'
 
 const Container = styled.div<{ hideInput: boolean }>`
   border-radius: ${({ hideInput }) => (hideInput ? '8px' : '20px')};
@@ -69,13 +71,14 @@ const LabelRow = styled.div`
 
 // todo: return types? meh.
 interface BridgeProps {
-  withdrawEth: (val: string)=>any,
-  withdrawToken: (add:string, val: string)=> any,
+  withdrawEth: (val: string, res?: boolean)=>any,
+  withdrawToken: (add:string, val: string,res?: boolean)=> any,
   bridgeTokens: any,
   addToken: (address: string, type: TokenType)=> Promise<string>
 }
 export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addToken}: BridgeProps) {
   const loadedUrlParams = useDefaultsFromURLSearch()
+  const addTransaction = useTransactionAdder()
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -207,10 +210,20 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
   const handleWithdraw = useCallback(()=>{
     if (!currency) return;
     if (currency.symbol === "ETH"){
-      withdrawEth(currencyValue)
+      withdrawEth(currencyValue, true).then((tx:TransactionResponse)=>{
+        addTransaction(tx,{ summary: `Withdraw ${currencyValue} ETH to L1`})
+      })
+      
     } else {
-      const currentCurrency = currency as Token 
-      withdrawToken(currentCurrency.address, currencyValue)
+      const currentCurrency = currency as Token       
+      addToken(currentCurrency.address, TokenType.ERC20).then(()=>{
+        
+        withdrawToken(currentCurrency.address, currencyValue, true).then((tx:TransactionResponse)=>{
+          addTransaction(tx,{ summary: `Withdraw ${currency.symbol || currency.name} Token to L1`})
+
+        })
+
+      })
     }
   }, [currencyValue, currency, withdrawEth, withdrawToken])
   
