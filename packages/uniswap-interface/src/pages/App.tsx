@@ -25,7 +25,7 @@ import { useArbTokenBridge } from 'token-bridge-sdk'
 import { ethers } from 'ethers-old'
 
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
-import useL1Provider from '../hooks/useL1Provider'
+import { useL1Provider4 } from '../hooks/useL1Provider'
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -62,7 +62,7 @@ const Marginer = styled.div`
 `
 
 export default function App() {
-  const ethProvider = useL1Provider(process.env.REACT_APP_L1_URL as string)
+  const ethProvider = useL1Provider4(process.env.REACT_APP_L1_URL as string)
   // @ts-ignore
   const arbProvider = new ethers.providers.Web3Provider(window.ethereum)
   const arbSigner = arbProvider.getSigner(0)

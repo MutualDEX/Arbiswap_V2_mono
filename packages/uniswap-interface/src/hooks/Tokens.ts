@@ -11,7 +11,7 @@ import { useBytes32TokenContract, useTokenContract } from './useContract'
 import ERC20_ABI from '../constants/abis/erc20.json'
 import { ethers } from 'ethers'
 import { useState } from 'react'
-import useL1Provider from '../hooks/useL1Provider'
+import { useL1Provider5 } from '../hooks/useL1Provider'
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
@@ -60,7 +60,7 @@ export function useTokenL1(tokenAddress?: string): Token | undefined | null {
 
   const [tokensMemo, setTokensMemo] = useState<TokensMemo>({})
   
- const ethProvider = useL1Provider(process.env.REACT_APP_L1_URL as string)
+ const ethProvider = useL1Provider5(process.env.REACT_APP_L1_URL as string)
 
   if (!tokenAddress || !chainId)return
 
