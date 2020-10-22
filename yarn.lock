@@ -3907,10 +3907,10 @@ aproba@^1.1.1:
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
   integrity sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
 
-arb-benchmark-suite@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/arb-benchmark-suite/-/arb-benchmark-suite-1.0.3.tgz#e0a3f1f4c9ceccccd56a4b4941e5a79c12384b8f"
-  integrity sha512-j1ive3n/fCVo+ehngcY8szurhCO0Ubr73lLH0jfk7mU8iM86I7FhTWVvc3zu7PEW52VQvv33/72ABMA4+iBo6A==
+arb-benchmark-suite@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/arb-benchmark-suite/-/arb-benchmark-suite-1.0.4.tgz#78e694820af6c4826ce8b913d620efe7a9c336d1"
+  integrity sha512-3aEDYA8x1z3uYcz2pxEHsMM8VswzVBJ+d++o4p5/PisyrVAQPA+rHnoW1ig2j/fk6okhYPkcCHUBZviH5ogW1A==
   dependencies:
     arb-provider-ethers "^0.7.0"
     chalk "^4.1.0"
@@ -3924,19 +3924,19 @@ arb-ethers-web3-bridge@^0.7.3:
     ethers-providers "^2.1.19"
     ethers-utils "^2.1.11"
 
-arb-provider-ethers@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.0.tgz#40ad6341a118dfa42abd3d8cef9dd1ec34100a93"
-  integrity sha512-/yrkGJl7f8X9cnC36yohXfr0NWYIHoeHDRCcNdpc6IdaMPcXkougitsvWGy2Ann9wEaSx135/00qiQRQ06e+4w==
+arb-provider-ethers@0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.2.tgz#63915049d982063c90a87a854b19381883c81904"
+  integrity sha512-7avyWW/oUholM2u4t122uKfWRRuuHNNbGjj6tDm9k1NpNE2bcvePophRI3xPreja96Kxh3RoprShqGF6BniWNA==
   dependencies:
     "@types/promise-poller" "^1.7.0"
     jayson "^3.2.0"
     promise-poller "^1.9.1"
 
-arb-provider-ethers@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.2.tgz#63915049d982063c90a87a854b19381883c81904"
-  integrity sha512-7avyWW/oUholM2u4t122uKfWRRuuHNNbGjj6tDm9k1NpNE2bcvePophRI3xPreja96Kxh3RoprShqGF6BniWNA==
+arb-provider-ethers@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.0.tgz#40ad6341a118dfa42abd3d8cef9dd1ec34100a93"
+  integrity sha512-/yrkGJl7f8X9cnC36yohXfr0NWYIHoeHDRCcNdpc6IdaMPcXkougitsvWGy2Ann9wEaSx135/00qiQRQ06e+4w==
   dependencies:
     "@types/promise-poller" "^1.7.0"
     jayson "^3.2.0"
