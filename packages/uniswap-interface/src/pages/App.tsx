@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { useLocalStorage } from '@rehooks/local-storage'
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import styled from 'styled-components'
 import GoogleAnalyticsReporter from '../components/analytics/GoogleAnalyticsReporter'
@@ -24,9 +25,10 @@ import Bridge from './Bridge'
 import { useArbTokenBridge } from 'token-bridge-sdk'
 import { ethers } from 'ethers-old'
 import { useActiveWeb3React } from '../hooks'
-
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import { useL1Provider4 } from '../hooks/useL1Provider'
+import WelcomeModal from '../components/WelcomeModal'
+import './App.css'
 const AppWrapper = styled.div`
   display: flex;
   flex-flow: column;
@@ -63,16 +65,18 @@ const Marginer = styled.div`
 `
 
 export default function App({bridge} : any) {
-  
+  const [shouldOpenModalCache, setShouldOpenModalCache] = useLocalStorage('welcomeModal', true)
+
 
   return (
     <Suspense fallback={null}>
+      <WelcomeModal shouldOpenModalCache={shouldOpenModalCache} setShouldOpenModalCache={setShouldOpenModalCache} />
       <HashRouter>
         <Route component={GoogleAnalyticsReporter} />
         <Route component={DarkModeQueryParamReader} />
         <AppWrapper>
           <HeaderWrapper>
-            <Header />
+            <Header setShouldOpenModalCache={setShouldOpenModalCache} />
           </HeaderWrapper>
           <BodyWrapper>
             <Popups />

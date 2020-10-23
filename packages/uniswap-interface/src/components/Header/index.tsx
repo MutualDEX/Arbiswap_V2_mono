@@ -6,6 +6,8 @@ import { Text } from 'rebass'
 import styled from 'styled-components'
 
 import Logo from '../../assets/svg/logo.svg'
+import ArbLogo from '../../assets/images/arbiswap2.png'
+
 import LogoDark from '../../assets/svg/logo_white.svg'
 import Wordmark from '../../assets/svg/wordmark.svg'
 import WordmarkDark from '../../assets/svg/wordmark_white.svg'
@@ -149,25 +151,26 @@ export default function Header( { setShouldOpenModalCache } : props) {
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
-  if (chainId !==ChainId.ARBITRUM ){
+  const unconnected = typeof chainId === 'number' && chainId !== ChainId.ARBITRUM  
     
-  }
+  
   return (
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }} padding="1rem 1rem 0 1rem">
         <HeaderElement>
-          <Title href=".">
+          <Title href="." style={{textDecoration:"none", color:"black", fontStyle:"normal"}}>
             <UniIcon>
-              <img src={isDark ? LogoDark : Logo} alt="logo" />
+              <img width="30" src={ArbLogo} alt="logo" />
             </UniIcon>
             <TitleText>
-              <img style={{ marginLeft: '4px', marginTop: '4px' }} src={isDark ? WordmarkDark : Wordmark} alt="logo" />
+              <span style={{ marginLeft: '4px', fontFamily:"Ariel"}}>ARBISWAP</span>
+              {/* <img style={{ marginLeft: '4px', marginTop: '4px' }} src={isDark ? WordmarkDark : Wordmark} alt="logo" /> */}
             </TitleText>
           </Title>
         </HeaderElement>
         <HeaderControls>
           <HeaderElement onClick ={()=> setShouldOpenModalCache(true)}>
-            <GetStarted>Get Started </GetStarted>
+            <GetStarted style={ unconnected ? {color: 'red'}: {}}> { unconnected ? 'Connect to Arbitrum' : 'Get Started'} </GetStarted>
           </HeaderElement>
           <HeaderElement>
             <TestnetWrapper>

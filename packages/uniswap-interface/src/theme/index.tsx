@@ -213,10 +213,13 @@ body {
   min-height: 100vh;
   background-position: 0 -30vh;
   background-repeat: no-repeat;
-  background-image: ${({ theme }) =>
-    `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.9, theme.primary1)} 0%, ${transparentize(
-      1,
-      theme.bg1
-    )} 100%)`};
+  background-image: radial-gradient(50% 50% at 50% 50%,rgb(0 184 255 / 10%) 0%,rgba(255,255,255,0) 100%);
+
 }
 `
+
+  // background-image: ${({ theme }) =>
+  // `radial-gradient(50% 50% at 50% 50%, ${transparentize(0.9, theme.primary1)} 0%, ${transparentize(
+  //   1,
+  //   theme.bg1
+  // )} 100%)`};
