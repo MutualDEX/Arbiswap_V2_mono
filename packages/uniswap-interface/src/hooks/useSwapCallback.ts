@@ -50,7 +50,8 @@ const destructureCall = async (call: SwapCall) => {
   const bytesMethod = `${methodName}(bytes)`;
   if (contract[bytesMethod]){
     methodName = bytesMethod
-    aargs = Array.isArray(aargs) && aargs.map((arg)=>{
+    
+    aargs = ( Array.isArray(aargs) && !['swapExactTokensForTokens', 'swapTokensForExactTokens'].includes(methodName)) && aargs.map((arg)=>{
       if (Array.isArray(arg)){
         return arg.filter((s)=> s!== WETH)
       }
