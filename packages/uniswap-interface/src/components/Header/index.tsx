@@ -20,6 +20,7 @@ import Menu from '../Menu'
 import Row, { RowBetween } from '../Row'
 import Web3Status from '../Web3Status'
 import VersionSwitch from './VersionSwitch'
+import Loader from '../Loader'
 
 const HeaderFrame = styled.div`
   display: flex;
@@ -126,6 +127,12 @@ const BalanceText = styled(Text)`
   `};
 `
 
+const GetStarted = styled(Text)`
+    cursor: pointer;
+      // background-color: ${({ theme }) => ( theme.bg3)};
+`
+
+
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
   [ChainId.RINKEBY]: 'Rinkeby',
@@ -134,13 +141,17 @@ const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.KOVAN]: 'Kovan',
   [ChainId.ARBITRUM]: 'Arbitrum'
 }
-
-export default function Header() {
+interface props {
+  setShouldOpenModalCache: (b: boolean) => void
+}
+export default function Header( { setShouldOpenModalCache } : props) {
   const { account, chainId } = useActiveWeb3React()
 
   const userEthBalance = useETHBalances(account ? [account] : [])?.[account ?? '']
   const [isDark] = useDarkModeManager()
-
+  if (chainId !==ChainId.ARBITRUM ){
+    
+  }
   return (
     <HeaderFrame>
       <RowBetween style={{ alignItems: 'flex-start' }} padding="1rem 1rem 0 1rem">
@@ -155,14 +166,17 @@ export default function Header() {
           </Title>
         </HeaderElement>
         <HeaderControls>
+          <HeaderElement onClick ={()=> setShouldOpenModalCache(true)}>
+            <GetStarted>Get Started </GetStarted>
+          </HeaderElement>
           <HeaderElement>
             <TestnetWrapper>
               {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
             </TestnetWrapper>
             <AccountElement active={!!account} style={{ pointerEvents: 'auto' }}>
-              {account && userEthBalance ? (
+              {account ? (
                 <BalanceText style={{ flexShrink: 0 }} pl="0.75rem" pr="0.5rem" fontWeight={500}>
-                  {userEthBalance?.toSignificant(4)} ETH
+                  { userEthBalance ? `${userEthBalance.toSignificant(4)} ETH` : <Loader/> }
                 </BalanceText>
               ) : null}
               <Web3Status />
