@@ -163,7 +163,7 @@ export default function Header( { setShouldOpenModalCache } : props) {
               <img width="30" src={ArbLogo} alt="logo" />
             </UniIcon>
             <TitleText>
-              <span style={{ marginLeft: '4px', fontFamily:"Ariel"}}>ARBISWAP</span>
+              <span style={{ marginLeft: '4px', fontFamily:"Ariel", color: isDark ? "white": "black"}}>ARBISWAP</span>
               {/* <img style={{ marginLeft: '4px', marginTop: '4px' }} src={isDark ? WordmarkDark : Wordmark} alt="logo" /> */}
             </TitleText>
           </Title>

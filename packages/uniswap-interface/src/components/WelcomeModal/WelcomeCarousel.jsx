@@ -14,6 +14,11 @@ import { Link, EmphText } from '../../theme'
 import TweetButton from './TweetButton'
 import styled from 'styled-components'
 
+
+const ModalLink = styled.a`
+  color: ${({ theme }) => theme.primary1};
+
+`
 const TweetSpan = styled.span`
   * {
     display: inline;
@@ -41,9 +46,9 @@ const CopyLink = ({ url, msg }) => {
     alert(msg)
   }
   return (
-    <a href="" onClick={onClick}>
+    <ModalLink href="" onClick={onClick}>
       {url}
-    </a>
+    </ModalLink>
   )
 }
 
@@ -114,10 +119,10 @@ function WelcomeCarousel() {
             {' '}
             Welcome to Arbiswap, a layer 2 implementation of the Uniswap Exchange on Arbitrum Rollup, brought to you by
             the friendly folks at{' '}
-            <a target="_blank" href="https://offchainlabs.com/">
+            <ModalLink tModalLinkrget="_blank" href="https://offchainlabs.com/">
               {' '}
               Offchain Labs!
-            </a>
+            </ModalLink>
             <br /> 
             <br />
             Once you get some funds on the rollup chain, you can use them just like you would Layer 1 Uniswap.
@@ -134,10 +139,10 @@ function WelcomeCarousel() {
         text={
           <span>
             First, make sure you have{' '}
-            <a target="_blank" href="https://metamask.io/download.html">
+            <ModalLink target="_blank" href="https://metamask.io/download.html">
               MetaMask installed,
-            </a>{' '}
-            and then connect to our publically hosted node at <CopyLink  url="https://node.offchainlabs.com:8547" msg="Aggregator url copied to clipboard"/> via Custom RPC <a href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</a>
+            </ModalLink>{' '}
+            and then connect to our publically hosted node at <CopyLink  url="https://node.offchainlabs.com:8547" msg="Aggregator url copied to clipboard"/> via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
           </span>
         }
         imageUrl={L2}
@@ -145,7 +150,7 @@ function WelcomeCarousel() {
       <ImageSlide
         text={
           <span>
-            If you already have Ether/tokens on Kovan, you can deposit them via our <a href="https://bridge.offchainlabs.com/" target="_blank">token bridge.</a> <br/><br/>
+            If you already have Ether/tokens on Kovan, you can deposit them via our <ModalLink href="https://bridge.offchainlabs.com/" target="_blank">token bridge.</ModalLink> <br/><br/>
             <span>Alternatively,</span> <TweetButton />{' '}
             <span> at us and we’ll send some Kovan ETH and Arbiswap test tokens directly to you on the Layer 2 chain.</span>
           </span>
@@ -167,7 +172,7 @@ function WelcomeCarousel() {
       <ImageSlide
         text={
           <span>
-            Check out our <a href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</a> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you add our custom block explorer url to MetaMask and MetaMask will link to your transactions directly:
+            Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you add our custom block explorer url to MetaMask and MetaMask will link to your transactions directly:
              
              <CopyLink url="https://explorer.offchainlabs.com/#" msg="Block explorer url copied to clipboard" />
           </span>
@@ -179,17 +184,17 @@ function WelcomeCarousel() {
         text={
           <span>
             For more info, checkout our{' '}
-            <a href="qq" target="_blank">
+            <ModalLink href="qq" target="_blank">
               blog
-            </a>
+            </ModalLink>
             , our{' '}
-            <a href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">
+            <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">
               developer docs
-            </a>
+            </ModalLink>
             , and the{' '}
-            <a href="https://offchainlabs.com/" target="_blank">
+            <ModalLink href="https://offchainlabs.com/" target="_blank">
               Offchain Labs website
-            </a>
+            </ModalLink>
             .
             <br /> <br />
             Happy swapping!
