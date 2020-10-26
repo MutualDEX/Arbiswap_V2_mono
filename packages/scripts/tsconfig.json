@@ -7,7 +7,7 @@
     "sourceMap": true,
     "outDir": "dist",
     "resolveJsonModule": true,
-    "types": ["react"]
+    "types": ["react","jest", "node"]
   },
   "lib": ["es2015"],
   "exclude": ["node_modules"],

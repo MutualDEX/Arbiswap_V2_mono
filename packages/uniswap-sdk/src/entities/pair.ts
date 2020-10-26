@@ -23,6 +23,31 @@ import { Token } from './token'
 
 let PAIR_ADDRESS_CACHE: { [token0Address: string]: { [token1Address: string]: string } } = {}
 
+
+export const getPairAddressFromAddresses = (_token0Address: string, _token1Address: string)=>{
+  // assumes they have the same chain ID
+  // const tokens = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA] // does safety checks
+  const [token0Address, token1Address] = _token0Address.toLowerCase() < _token1Address.toLowerCase() ? [_token0Address, _token1Address] : [_token1Address, _token0Address]
+ 
+
+  if (PAIR_ADDRESS_CACHE?.[token0Address]?.[token1Address] === undefined) {
+    PAIR_ADDRESS_CACHE = {
+      ...PAIR_ADDRESS_CACHE,
+      [token0Address]: {
+        ...PAIR_ADDRESS_CACHE?.[token0Address],
+        [token1Address]: getCreate2Address(
+          FACTORY_ADDRESS,
+          keccak256(['bytes'], [pack(['address', 'address'], [token0Address, token1Address])]),
+          INIT_CODE_HASH
+        )
+      }
+    }
+  }
+
+  return PAIR_ADDRESS_CACHE[token0Address][token1Address]
+
+}
+
 export class Pair {
   public readonly liquidityToken: Token
   private readonly tokenAmounts: [TokenAmount, TokenAmount]

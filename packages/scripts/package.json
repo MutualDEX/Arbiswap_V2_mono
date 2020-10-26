@@ -7,10 +7,12 @@
     "@uniswap/sdk": "3.0.3",
     "@uniswap/v2-core": "1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
-    "arb-benchmark-suite": "^1.0.4",
-    "ethers": "^4.0.47"
+    "arb-benchmark-suite": "^1.0.5",
+    "ethers": "^4.0.47",
+    "mocha": "^8.2.0"
   },
   "scripts": {
-    "start": "tsc && node dist/app.js"
+    "start": "tsc && node dist/app.js",
+    "test": "tsc && mocha --timeout 30000 'dist/test.js'"
   }
 }
