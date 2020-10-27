@@ -91,8 +91,10 @@ export const quotePrice = async (amountToken: ethers.utils.BigNumber, tokenAAddr
 }
 
 const tokenContract = new Contract(tokenAddress, ERC20_ABI, signer);
+const tokenContract2 = new Contract(contractAddresses.arbTokenAddress, ERC20_ABI, signer);
 
-export const approveAndFund = async () => {
+
+const approveAndFund = async (tokenContract: Contract) => {
   const targetTokenBalance = utils.parseEther("100000")
 
   const bal:ethers.utils.BigNumber = await tokenContract.balanceOf(signer.address);
@@ -119,28 +121,63 @@ export const approveAndFund = async () => {
   } else {
     console.info('Token allowance already set')
   }
+} 
 
-  const reserves  = await getReserves(contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+
+
+export const setup = async () => {
+  await approveAndFund(tokenContract)
+  await approveAndFund(tokenContract2)
+
+  let  reserves  = await getReserves(contractAddresses.testTokenAddress, contractAddresses.wethAddress)
 
   if (!reserves){
     console.info('initializing token pair')
-    const res = await createTokenInitialTokenPair()
-    if (res.status === 1){
-      console.info('token pair created')
-    } else {
-      console.info('failed to create token pair')
-
-    }
+    const res = await createInitialWethTokenPair()
+    console.info(res.status === 1 ? 'token pair created': 'failed to create token pair')
 
   } else {
     console.info('Token pair already created')
   }
-  console.info("Done setting up tokens");
+
+  reserves =  await getReserves(contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+  if (!reserves){
+    console.info('initializing token token pair')
+    const res = await createInitialTokenTokenPair()
+    console.info(res.status === 1 ? 'token pair created': 'failed to create token pair')
+
+  } else {
+    console.info('Token pair already created')
+  }
+  console.info("Done setting up")
   console.info("");
 
 };
 
-export const createTokenInitialTokenPair = async ()=>{
+
+export const createInitialTokenTokenPair = async ()=>{
+  const tokenVal =  etherVal.mul(10)
+  const args = [
+    tokenAddress,
+    contractAddresses.arbTokenAddress,
+    tokenVal.toString(),
+    tokenVal.toString(),
+    tokenVal.mul(995).div(1000).toString(),
+    tokenVal.mul(995).div(1000).toString(),
+    signer.address,
+    Math.ceil(Date.now() / 1000) + 120000,
+  ]
+
+
+  const tx = await routerContract.addLiquidity(...args, {
+    nonce: await signer.getTransactionCount()
+  });
+
+  return await  tx.wait()
+}
+
+
+export const createInitialWethTokenPair = async ()=>{
   const ethVal = utils.parseEther('0.1')
   const tokenVal =  ethVal
   const args = [
@@ -289,6 +326,43 @@ export const swapTokensForExactEthBytes = async (nonce) => {
   });
 };
 
+export const swapExactTokensForTokensBytes = async (nonce) => {
+  const testTokenVal = etherVal
+  const arbTokenVal = await getAmountOut(testTokenVal,  contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+
+  const goodArgs = [
+    testTokenVal.toString(),
+    arbTokenVal.toString(),
+    [consts.tokenAddress,contractAddresses.arbTokenAddress],
+    signer.address,
+    Math.ceil(Date.now() / 1000) + 120000,
+  ];
+  const bytes = await serializeAndLookupIndices(goodArgs);
+
+  return await routerContract["swapExactTokensForTokens(bytes)"](bytes, {
+    nonce,
+  });
+};
+
+
+export const swapTokensForExactTokensBytes = async (nonce) => {
+  const arbTokenVal = etherVal
+  const testTokenVal = await getAmountIn(arbTokenVal,  contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+
+  const goodArgs = [
+    arbTokenVal.toString(),
+    testTokenVal.toString(),
+    [consts.tokenAddress,contractAddresses.arbTokenAddress],
+    signer.address,
+    Math.ceil(Date.now() / 1000) + 120000,
+  ];
+  const bytes = await serializeAndLookupIndices(goodArgs);
+
+  return await routerContract["swapTokensForExactTokens(bytes)"](bytes, {
+    nonce,
+  });
+};
+
 // const swapTokensForExactEth = async (nonce) => {
 //   const etherVal = utils.parseEther("0.00001");
 //   const tokenVal = utils.parseEther("200");
@@ -316,7 +390,7 @@ export const swapTokensForExactEthBytes = async (nonce) => {
 // const withdrawWeth = async(nonce)=>{
 //   return await wethContract.withdraw(utils.parseEther("0.00001"), {nonce})
 // }
-approveAndFund()
+setup()
 export const benchmarks = new BenchmarkSuite(
   ethProvider,
   arbProvider,
