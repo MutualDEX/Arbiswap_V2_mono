@@ -21,15 +21,12 @@ describe('addLiquidityEth tests', function() {
         return benchmarks.run([{
           method: addLiquidityEthBytes,
           count,
-          name: "addLiquidityEthBytes test",
+          name: "addLiquidityEth test",
           getNonce: () => signer.getTransactionCount()
         }]).then(async (benchmarkReport)=>{
           const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           const newBal = await signer.getBalance()
-
-          console.warn("reserve diff",utils.formatEther(newEthReserves.sub(oldEthReserves)));
-          console.warn("balance diff",utils.formatEther(newBal.sub(oldBal)));
 
           const minEthVal = etherVal.mul(995).div(1000)
 
@@ -52,7 +49,7 @@ describe('addLiquidityEth tests', function() {
       return benchmarks.run([{
         method: addLiquidityEthBytesRevert,
         count,
-        name: "addLiquidityEthBytes test",
+        name: "addLiquidityEth test",
         getNonce: () => signer.getTransactionCount()
       }]).then(async (benchmarkReport)=>{
 
@@ -82,23 +79,21 @@ describe('addLiquidityEth tests', function() {
     })
   })
 
-  describe('swapETHForExactTokensBytes tests', function() {
+  describe('swapETHForExactTokens tests', function() {
     const count = 1
-      it(`handles ${count} swapExactETHForTokensBytes calls`, async function() {
+      it(`handles ${count} swapExactETHForTokens calls`, async function() {
         const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
         const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-        console.warn("???", oldtestTokenReserves.toString(), oldEthReserves.toString())
 
         return benchmarks.run([{
           method: swapETHForExactTokensBytes,
           count,
-          name: "swapETHForExactTokensBytes test",
+          name: "swapETHForExactTokens test",
           getNonce: () => signer.getTransactionCount()
         }]).then(async (benchmarkReport)=>{
           const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           assert.ok(benchmarkReport.succeeded)
-          console.warn('oldEthReserves', oldEthReserves.toString(), newEthReserves.toString());
 
           assert.ok(oldEthReserves.lt(newEthReserves) , "WETH reserves increase")
           assert.ok(oldtestTokenReserves.sub(etherVal.mul(count)).eq(newtestTokenReserves) , "Test Token Reserves decrease as expected")
@@ -108,15 +103,15 @@ describe('addLiquidityEth tests', function() {
   })
 
 
-  describe('swapExactETHForTokensBytes tests', function() {
-    it('handles 3 swapExactETHForTokensBytes calls', async function() {
+  describe('swapExactETHForTokens tests', function() {
+    it('handles 3 swapExactETHForTokens calls', async function() {
       const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
       const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
       const count = 1
       return benchmarks.run([{
         method: swapExactETHForTokensBytes,
         count,
-        name: "swapExactETHForTokensBytes test",
+        name: "swapExactETHForTokens test",
         getNonce: () => signer.getTransactionCount()
       }]).then(async (benchmarkReport)=>{
         const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -131,15 +126,15 @@ describe('addLiquidityEth tests', function() {
 })
 
 
-describe('swapTokensForExactEthBytes tests', function() {
-  it('handlesun swapTokensForExactEthBytes calls', async function() {
+describe('swapTokensForExactEth tests', function() {
+  it('handles swapTokensForExactEth calls', async function() {
     const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
     const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
     const count = 1
     return benchmarks.run([{
       method: swapTokensForExactEthBytes,
       count,
-      name: "swapTokensForExactEthBytes test",
+      name: "swapTokensForExactEth test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
       const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -153,15 +148,15 @@ describe('swapTokensForExactEthBytes tests', function() {
   })
 })
 
-describe('swapExactTokensForTokensBytes tests', function() {
-  it('handles swapExactTokensForTokensBytes calls', async function() {
+describe('swapExactTokensForTokens tests', function() {
+  it('handles swapExactTokensForTokens calls', async function() {
     const [oldtestTokenReserves,  oldArbTokenReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const count = 1
     return benchmarks.run([{
       method: swapExactTokensForTokensBytes,
       count,
-      name: "swapExactTokensForTokensBytes test",
+      name: "swapExactTokensForTokens test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
       const [newtestTokenReserves, newArbTestTokenReserves  ] =  await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
@@ -177,15 +172,15 @@ describe('swapExactTokensForTokensBytes tests', function() {
 
 
 
-describe('swapTokensForExactTokensBytes tests', function() {
-  it('handlesun swapTokensForExactTokensBytes calls', async function() {
+describe('swapTokensForExactTokens tests', function() {
+  it('handles swapTokensForExactTokens calls', async function() {
     const [oldtestTokenReserves,  oldArbTokenReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const count = 1
     return benchmarks.run([{
       method: swapTokensForExactTokensBytes,
       count,
-      name: "swapTokensForExactTokensBytes test",
+      name: "swapTokensForExactTokens test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
       const [newtestTokenReserves, newArbTestTokenReserves  ] =  await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
