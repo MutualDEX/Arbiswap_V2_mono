@@ -1,4 +1,4 @@
-import { benchmarks, addLiquidityEthBytesRevert, addLiquidityEthBytes, signer, approveAndFund, getReserves, quotePrice, swapETHForExactTokensBytes, swapExactETHForTokensBytes, etherVal, swapTokensForExactEthBytes } from './app'
+import { benchmarks, addLiquidityEthBytesRevert, addLiquidityEthBytes, signer, approveAndFund, getReserves, quotePrice, swapETHForExactTokensBytes, swapExactETHForTokensBytes, etherVal, swapTokensForExactEthBytes, removeLiquidityEth } from './app'
 
 import {  contractAddresses } from "@uniswap/sdk";
 import { utils } from "ethers";
@@ -8,13 +8,13 @@ const between = (min: utils.BigNumber, target: utils.BigNumber, max: utils.BigNu
   return min.lt(target) && target.lte(max)
 }
 
-var assert = require('assert');
+const assert = require('assert');
 
 beforeEach(async ()=>{
   await approveAndFund()
 })
   describe('addLiquidityEth tests', function() {
-    let count = 3
+    const count = 3
     it(`handles ${count} addLiquiditiyETH calls`, async function() {
         const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
         const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -39,7 +39,7 @@ beforeEach(async ()=>{
 
           assert.ok(benchmarkReport.succeeded)
           // TODO why?
-          assert.ok( 
+          assert.ok(
             between (oldEthReserves.add(minEthVal.mul(count)), newEthReserves, oldEthReserves.add(etherVal.mul(count)))
           , "old eth reserves... close enough?")
           assert.ok(oldtestTokenReserves.add(oldTestTokenPrice.mul(count)).eq(newtestTokenReserves) , "TestToken reserves increase as expected")
@@ -58,7 +58,7 @@ beforeEach(async ()=>{
         name: "addLiquidityEthBytes test",
         getNonce: () => signer.getTransactionCount()
       }]).then(async (benchmarkReport)=>{
-        
+
         assert.ok(!benchmarkReport.succeeded)
         const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
 
@@ -70,6 +70,20 @@ beforeEach(async ()=>{
 
   })
 
+  // describe('Remove liquidity ETH', function() {
+  //   const count = 1
+  //     it(`handles ${count} removeLiqudityEth calls`, async function() {
+  //       return benchmarks.run([{
+  //         method: removeLiquidityEth,
+  //         count,
+  //         name: "removeLiqudityEth test",
+  //         getNonce: () => signer.getTransactionCount()
+  //       }]).then(async (benchmarkReport)=>{
+  //         assert.ok(benchmarkReport.succeeded)
+
+  //       })
+  //   })
+  // })
 
 
 
@@ -81,7 +95,7 @@ beforeEach(async ()=>{
         const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
         const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
         console.warn("???", oldtestTokenReserves.toString(), oldEthReserves.toString())
-        
+
         return benchmarks.run([{
           method: swapETHForExactTokensBytes,
           count,
@@ -92,7 +106,7 @@ beforeEach(async ()=>{
           const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           assert.ok(benchmarkReport.succeeded)
           console.warn('oldEthReserves', oldEthReserves.toString(), newEthReserves.toString());
-          
+
           assert.ok(oldEthReserves.lt(newEthReserves) , "WETH reserves increase")
           assert.ok(oldtestTokenReserves.sub(etherVal.mul(count)).eq(newtestTokenReserves) , "Test Token Reserves decrease as expected")
           assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")

@@ -13,6 +13,8 @@
   },
   "scripts": {
     "start": "tsc && node dist/app.js",
-    "test": "tsc && mocha --timeout 30000 'dist/test.js'"
+    "test": "tsc && mocha --timeout 30000 'dist/test.js'",
+    "test2": "tsc && mocha -g 'swapTokensForExactEthBytes' --timeout 30000 'dist/test.js'",
+    "lint": "tslint tslint.json 'src/**/*.ts' --fix"
   }
 }

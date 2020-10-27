@@ -25,7 +25,7 @@ const routerContract = new Contract(
 );
 
 const wethContract = new Contract(
-  contractAddresses.wethAddress, 
+  contractAddresses.wethAddress,
   IWETH,
   signer
 );
@@ -33,14 +33,14 @@ export const etherVal = utils.parseEther("0.0001");
 
 // required input for an exact output
 const getAmountIn = async ( exactAmountOut: utils.BigNumber, inAddress: string, outAddress:string )=>{
-  const [inReserves, outReserves] = await getReserves(inAddress,outAddress) 
+  const [inReserves, outReserves] = await getReserves(inAddress,outAddress)
   return await routerContract.getAmountIn(exactAmountOut, inReserves, outReserves)
 }
 
 
 // max output for an exact input
 const getAmountOut =  async (exactAmountIn: utils.BigNumber, inAddress: string, outAddress:string)=>{
-  const [inReserves, outReserves] = await getReserves(inAddress,outAddress) 
+  const [inReserves, outReserves] = await getReserves(inAddress,outAddress)
   return await routerContract.getAmountOut(exactAmountIn, inReserves, outReserves)
 }
 
@@ -55,39 +55,39 @@ export const getReserves = (()=>{
     } else {
         const pairAddress = getPairAddressFromAddresses(tokenAAddress, tokenBAddress)
         pairContract = new Contract(pairAddress, IUniswapV2Pair, signer)
- 
+
 
 
     }
-    try { 
+    try {
       const [tokenAReserves, tokenBReserves]:[ethers.utils.BigNumber, ethers.utils.BigNumber]  = await pairContract.getReserves()
       const firstAddress = await pairContract.token0();
       const [testTokenReserves, wethReserves] = firstAddress === tokenBAddress ? [tokenBReserves, tokenAReserves] : [tokenAReserves, tokenBReserves]
 
-      
+
 
       return [testTokenReserves, wethReserves]
     } catch{
       console.warn('reserves not found');
-      
+
       return null
-      
+
     }
-    
+
   }
-  
+
 })()
 
 
 export const quotePrice = async (amountToken: ethers.utils.BigNumber, tokenAAddress: string, tokenBAddress: string, inputAmountIsFirst = false)=>{
   const [tokenAReserves, tokenBReserves] = await getReserves(tokenAAddress, tokenBAddress)
-  
+
   // quote(uint amountA, uint reserveA, uint reserve)
 
   const price: ethers.utils.BigNumber =  inputAmountIsFirst ? await routerContract.quote(amountToken, tokenAReserves, tokenBReserves) : await routerContract.quote(amountToken, tokenBReserves, tokenAReserves)
-  
+
   return price
-  
+
 }
 
 const tokenContract = new Contract(tokenAddress, ERC20_ABI, signer);
@@ -108,7 +108,7 @@ export const approveAndFund = async () => {
   }
 
   const allowance:ethers.utils.BigNumber  = await tokenContract.allowance(signer.address, routerAddress)
-  
+
   if (allowance.isZero()){
     console.info("Setting token allowance for address ")
     const approveTx = await tokenContract.approve(
@@ -131,7 +131,7 @@ export const approveAndFund = async () => {
       console.info('failed to create token pair')
 
     }
-    
+
   } else {
     console.info('Token pair already created')
   }
@@ -150,10 +150,10 @@ export const createTokenInitialTokenPair = async ()=>{
     ethVal.mul(995).div(1000).toString(),
     signer.address,
     Math.ceil(Date.now() / 1000) + 120000,
-  ]  
-  
+  ]
+
   const bytes = await serializeAndLookupIndices(args);
-  
+
   const tx = await routerContract.addLiquidityETH(bytes, {
     value: new ethers.utils.BigNumber(ethVal),
     nonce: await signer.getTransactionCount()
@@ -172,11 +172,30 @@ export const addLiquidityEthBytes = async (nonce) => {
     etherVal.mul(995).div(1000).toString(),
     signer.address,
     Math.ceil(Date.now() / 1000) + 120000,
-  ]  
-  
+  ]
+
   const bytes = await serializeAndLookupIndices(args);
-  
+
   return routerContract.addLiquidityETH(bytes, {
+    value: new ethers.utils.BigNumber(etherVal),
+    nonce
+  });
+};
+
+export const removeLiquidityEth = async (nonce) => {
+
+  const tokenVal =  await quotePrice(etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+  const args = [
+    tokenAddress,
+    new utils.BigNumber(1).toString(),
+    tokenVal.mul(1).div(1000).toString(),
+    etherVal.mul(1).div(1000).toString(),
+    signer.address,
+    Math.ceil(Date.now() / 1000) + 120000,
+  ]
+
+
+  return routerContract.removeLiquidityETH(...args, {
     value: new ethers.utils.BigNumber(etherVal),
     nonce
   });
@@ -215,12 +234,12 @@ export const swapExactETHForTokensBytes = async (nonce) => {
 
   return await routerContract["swapExactETHForTokens(bytes)"](bytes, {
     value: etherVal,
-    nonce: nonce,
+    nonce,
   });
 };
 
 export const swapETHForExactTokensBytes = async (nonce) => {
-  const tokensVal = etherVal 
+  const tokensVal = etherVal
   const ethAmmount = await getAmountIn(tokensVal, contractAddresses.wethAddress, contractAddresses.testTokenAddress )
   const goodArgs = [
     tokensVal.toString(),
@@ -233,7 +252,7 @@ export const swapETHForExactTokensBytes = async (nonce) => {
     value: ethAmmount,
     nonce,
   });
-  
+
   return  tx
 };
 
@@ -264,9 +283,9 @@ export const swapTokensForExactEthBytes = async (nonce) => {
     Math.ceil(Date.now() / 1000) + 120000,
   ];
   const bytes = await serializeAndLookupIndices(goodArgs);
-  
+
   return await routerContract["swapTokensForExactETH(bytes)"](bytes, {
-    nonce: nonce,
+    nonce,
   });
 };
 
@@ -280,9 +299,9 @@ export const swapTokensForExactEthBytes = async (nonce) => {
 //     [consts.tokenAddress, contractAddresses.wethAddress],
 //     signer.address,
 //     Math.ceil(Date.now() / 1000) + 120000
-//   ];
-  
-  
+//   ];y
+
+
 //   return await routerContract["swapTokensForExactETH(uint256,uint256,address[],address,uint256)"](...goodArgs, {
 //     nonce: nonce,
 //     gasLimit: 5000000
@@ -297,10 +316,11 @@ export const swapTokensForExactEthBytes = async (nonce) => {
 // const withdrawWeth = async(nonce)=>{
 //   return await wethContract.withdraw(utils.parseEther("0.00001"), {nonce})
 // }
-
+approveAndFund()
 export const benchmarks = new BenchmarkSuite(
   ethProvider,
   arbProvider,
   "0xc68DCee7b8cA57F41D1A417103CB65836E99e013"
 )
+// arbProvider.getBalance(contractAddresses.wethAddress).then(console.log)
 
