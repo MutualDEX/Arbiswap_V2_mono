@@ -9,6 +9,10 @@ const between = (min: utils.BigNumber, target: utils.BigNumber, max: utils.BigNu
 }
 
 var assert = require('assert');
+
+beforeEach(async ()=>{
+  await approveAndFund()
+})
   describe('addLiquidityEth tests', function() {
     let count = 3
     it(`handles ${count} addLiquiditiyETH calls`, async function() {
@@ -21,8 +25,7 @@ var assert = require('assert');
           method: addLiquidityEthBytes,
           count,
           name: "addLiquidityEthBytes test",
-          getNonce: () => signer.getTransactionCount(),
-           initBatch: approveAndFund
+          getNonce: () => signer.getTransactionCount()
         }]).then(async (benchmarkReport)=>{
           const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -53,8 +56,7 @@ var assert = require('assert');
         method: addLiquidityEthBytesRevert,
         count,
         name: "addLiquidityEthBytes test",
-        getNonce: () => signer.getTransactionCount(),
-         initBatch: approveAndFund
+        getNonce: () => signer.getTransactionCount()
       }]).then(async (benchmarkReport)=>{
         
         assert.ok(!benchmarkReport.succeeded)
@@ -84,8 +86,7 @@ var assert = require('assert');
           method: swapETHForExactTokensBytes,
           count,
           name: "swapETHForExactTokensBytes test",
-          getNonce: () => signer.getTransactionCount(),
-          initBatch: approveAndFund
+          getNonce: () => signer.getTransactionCount()
         }]).then(async (benchmarkReport)=>{
           const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
           const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -109,8 +110,7 @@ var assert = require('assert');
         method: swapExactETHForTokensBytes,
         count,
         name: "swapExactETHForTokensBytes test",
-        getNonce: () => signer.getTransactionCount(),
-        initBatch: approveAndFund
+        getNonce: () => signer.getTransactionCount()
       }]).then(async (benchmarkReport)=>{
         const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
         const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -125,7 +125,7 @@ var assert = require('assert');
 
 
 describe('swapTokensForExactEthBytes tests', function() {
-  it('handles 3 swapTokensForExactEthBytes calls', async function() {
+  it('handlesun swapTokensForExactEthBytes calls', async function() {
     // const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
     // const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
     const count = 1
@@ -133,8 +133,7 @@ describe('swapTokensForExactEthBytes tests', function() {
       method: swapTokensForExactEthBytes,
       count,
       name: "swapTokensForExactEthBytes test",
-      getNonce: () => signer.getTransactionCount(),
-      initBatch: approveAndFund
+      getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
       // const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
       // const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)

@@ -298,7 +298,6 @@ export const swapTokensForExactEthBytes = async (nonce) => {
 //   return await wethContract.withdraw(utils.parseEther("0.00001"), {nonce})
 // }
 
-
 export const benchmarks = new BenchmarkSuite(
   ethProvider,
   arbProvider,
