@@ -142,7 +142,7 @@ function WelcomeCarousel() {
             <ModalLink target="_blank" href="https://metamask.io/download.html">
               MetaMask installed,
             </ModalLink>{' '}
-            and then connect to our publically hosted node at <CopyLink  url="https://node.offchainlabs.com:8547" msg="Aggregator url copied to clipboard"/> via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
+            and then connect to our publicly hosted node at <CopyLink  url="https://node.offchainlabs.com:8547" msg="Aggregator url copied to clipboard"/> via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
           </span>
         }
         imageUrl={L2}
@@ -172,7 +172,7 @@ function WelcomeCarousel() {
       <ImageSlide
         text={
           <span>
-            Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you add our custom block explorer url to MetaMask and MetaMask will link to your transactions directly:
+            Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you add our custom block explorer url to MetaMask, then MetaMask will link to your transactions directly:
              
              <CopyLink url="https://explorer.offchainlabs.com/#" msg="Block explorer url copied to clipboard" />
           </span>
