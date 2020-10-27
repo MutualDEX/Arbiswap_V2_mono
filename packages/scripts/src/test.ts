@@ -133,8 +133,8 @@ describe('addLiquidityEth tests', function() {
 
 describe('swapTokensForExactEthBytes tests', function() {
   it('handlesun swapTokensForExactEthBytes calls', async function() {
-    // const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-    // const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+    const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+    const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
     const count = 1
     return benchmarks.run([{
       method: swapTokensForExactEthBytes,
@@ -142,21 +142,21 @@ describe('swapTokensForExactEthBytes tests', function() {
       name: "swapTokensForExactEthBytes test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
-      // const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-      // const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+      const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+      const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
       assert.ok(benchmarkReport.succeeded)
 
-      // assert.ok(oldtestTokenReserves.gt(newtestTokenReserves) , "Tokens reserves decrease")
-      // assert.ok(oldEthReserves.add(etherVal.mul(count)).eq(newEthReserves) , "ETH Reserves increase as expected")
-      // assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")
+      assert.ok(oldtestTokenReserves.lt(newtestTokenReserves) , "Tokens reserves increase")
+      assert.ok(oldEthReserves.sub(etherVal.mul(count)).eq(newEthReserves) , "ETH Reserves decrease as expected")
+      assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")
     })
   })
 })
 
 describe('swapExactTokensForTokensBytes tests', function() {
-  it('handlesun swapExactTokensForTokensBytes calls', async function() {
-    // const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-    // const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+  it('handles swapExactTokensForTokensBytes calls', async function() {
+    const [oldtestTokenReserves,  oldArbTokenReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+    const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const count = 1
     return benchmarks.run([{
       method: swapExactTokensForTokensBytes,
@@ -164,13 +164,13 @@ describe('swapExactTokensForTokensBytes tests', function() {
       name: "swapExactTokensForTokensBytes test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
-      // const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-      // const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+      const [newtestTokenReserves, newArbTestTokenReserves  ] =  await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+      const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
       assert.ok(benchmarkReport.succeeded)
 
-      // assert.ok(oldtestTokenReserves.gt(newtestTokenReserves) , "Tokens reserves decrease")
-      // assert.ok(oldEthReserves.add(etherVal.mul(count)).eq(newEthReserves) , "ETH Reserves increase as expected")
-      // assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")
+      assert.ok(oldArbTokenReserves.gt(newArbTestTokenReserves) , "Token 2 reserves decrdase")
+      assert.ok(oldtestTokenReserves.add(etherVal.mul(count)).eq(newtestTokenReserves) , "Token 1 reserves increase as expected")
+      assert.ok(oldTestTokenPrice.lt(newTestTokenPrice), "Token 1 quoted amount goes up after swaps")
     })
   })
 })
@@ -179,8 +179,8 @@ describe('swapExactTokensForTokensBytes tests', function() {
 
 describe('swapTokensForExactTokensBytes tests', function() {
   it('handlesun swapTokensForExactTokensBytes calls', async function() {
-    // const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-    // const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+    const [oldtestTokenReserves,  oldArbTokenReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+    const oldTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
     const count = 1
     return benchmarks.run([{
       method: swapTokensForExactTokensBytes,
@@ -188,13 +188,13 @@ describe('swapTokensForExactTokensBytes tests', function() {
       name: "swapTokensForExactTokensBytes test",
       getNonce: () => signer.getTransactionCount()
     }]).then(async (benchmarkReport)=>{
-      // const [newtestTokenReserves, newEthReserves  ] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
-      // const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.wethAddress)
+      const [newtestTokenReserves, newArbTestTokenReserves  ] =  await  getReserves (contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
+      const newTestTokenPrice = await quotePrice( etherVal, contractAddresses.testTokenAddress, contractAddresses.arbTokenAddress)
       assert.ok(benchmarkReport.succeeded)
 
-      // assert.ok(oldtestTokenReserves.gt(newtestTokenReserves) , "Tokens reserves decrease")
-      // assert.ok(oldEthReserves.add(etherVal.mul(count)).eq(newEthReserves) , "ETH Reserves increase as expected")
-      // assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")
+      assert.ok(oldtestTokenReserves.lt(newtestTokenReserves) , "Token 1 reserves increase")
+      assert.ok(oldArbTokenReserves.sub(etherVal.mul(count)).eq(newArbTestTokenReserves) , "Token 2 reserves decrease as expected")
+      assert.ok(oldTestTokenPrice.lt(newTestTokenPrice), "Token 1 quoted amount goes up after swaps")
     })
   })
 })
