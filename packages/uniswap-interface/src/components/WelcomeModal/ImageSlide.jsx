@@ -26,7 +26,7 @@ const ImgWrapper = styled.div`
 `
 
 const WelcomeText = styled.div`
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 10px;
   min-height: 100px;
   line-height: 22px;
