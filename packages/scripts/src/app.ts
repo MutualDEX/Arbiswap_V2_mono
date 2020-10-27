@@ -121,7 +121,7 @@ const approveAndFund = async (tokenContract: Contract) => {
   } else {
     console.info('Token allowance already set')
   }
-} 
+}
 
 
 

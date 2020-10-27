@@ -10,7 +10,7 @@ const between = (min: utils.BigNumber, target: utils.BigNumber, max: utils.BigNu
 
 const assert = require('assert');
 
-  describe('addLiquidityEth tests', function() {
+describe('addLiquidityEth tests', function() {
     const count = 3
     it(`handles ${count} addLiquiditiyETH calls`, async function() {
         const [oldtestTokenReserves,  oldEthReserves] = await  getReserves (contractAddresses.testTokenAddress, contractAddresses.wethAddress)
@@ -81,10 +81,6 @@ const assert = require('assert');
         })
     })
   })
-
-
-
-
 
   describe('swapETHForExactTokensBytes tests', function() {
     const count = 1
