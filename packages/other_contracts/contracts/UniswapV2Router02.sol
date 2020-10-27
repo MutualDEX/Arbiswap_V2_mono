@@ -312,9 +312,9 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountOutMin = args.toUint(cursor);
         cursor += 32; 
 
-        uint8 isRegistered = args.toUint8(cursor);
-        cursor += 1;
         uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        uint8 isRegistered = args.toUint8(cursor);
         cursor += 1;
         address[] memory path  =  new address[](pathLength);
         for (uint i; i < pathLength; i++) {
@@ -373,9 +373,9 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountInMax = args.toUint(cursor);
         cursor += 32; 
 
-        uint8 isRegistered = args.toUint8(cursor);
-        cursor += 1;
         uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        uint8 isRegistered = args.toUint8(cursor);
         cursor += 1;
         address[] memory path  =  new address[](pathLength);
         for (uint i; i < pathLength; i++) {
@@ -388,7 +388,6 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         cursor += 1;
         address to;
         (to, cursor) = lookupAndRegisterAddress(args, isRegistered, cursor);
-
         uint deadline = args.toUint(cursor);
         cursor += 32;
         return _swapTokensForExactTokens(amountOut, amountInMax, path, to, deadline, msg.sender);
@@ -430,12 +429,11 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         cursor += 32;
 
 
-        uint8 isRegistered = args.toUint8(cursor);
-        cursor += 1;
-
-        // Caller should leave out WETH from path (it's path[0] anyway)
         uint8 pathLength = args.toUint8(cursor);
         cursor += 1;
+        uint8 isRegistered = args.toUint8(cursor);
+        cursor += 1;
+        // Caller should leave out WETH from path (it's path[0] anyway)
 
         address[] memory path  =  new address[](pathLength + 1);
         path[0] = WETH;
@@ -487,11 +485,11 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountInMax = args.toUint(cursor);
         cursor += 32;
 
+        uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
         uint8 isRegistered = args.toUint8(cursor);
         cursor += 1;
         // Caller should leave out WETH from path (it's end of path anyway)
-        uint8 pathLength = args.toUint8(cursor); 
-        cursor += 1;
 
         address[] memory path  =  new address[](pathLength + 1);
         for (uint i; i < pathLength; i++) {
@@ -562,9 +560,9 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountOutMin = args.toUint(cursor);
         cursor += 32; 
 
-        uint8 isRegistered = args.toUint8(cursor);
-        cursor += 1;
         uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        uint8 isRegistered = args.toUint8(cursor);
         cursor += 1;
         // caller leaves out weth
         address[] memory path  =  new address[](pathLength + 1);
@@ -625,9 +623,9 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         uint amountOut = args.toUint(cursor);
         cursor += 32; 
 
-        uint8 isRegistered = args.toUint8(cursor);
-        cursor += 1;
         uint8 pathLength = args.toUint8(cursor); 
+        cursor += 1;
+        uint8 isRegistered = args.toUint8(cursor);
         cursor += 1;
         address[] memory path  =  new address[](pathLength + 1);
         // caller leaves out WETH
