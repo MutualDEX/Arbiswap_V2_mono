@@ -28,6 +28,8 @@ import { useActiveWeb3React } from '../hooks'
 import { RedirectPathToSwapOnly, RedirectToSwap } from './Swap/redirects'
 import { useL1Provider4 } from '../hooks/useL1Provider'
 import WelcomeModal from '../components/WelcomeModal'
+import Footer from '../components/Footer'
+
 import './App.css'
 const AppWrapper = styled.div`
   display: flex;
@@ -102,6 +104,7 @@ export default function App({bridge} : any) {
             </Web3ReactManager>
             <Marginer />
           </BodyWrapper>
+          <Footer/>
         </AppWrapper>
       </HashRouter>
     </Suspense>
