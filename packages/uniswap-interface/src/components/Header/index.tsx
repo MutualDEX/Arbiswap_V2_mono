@@ -14,6 +14,7 @@ import WordmarkDark from '../../assets/svg/wordmark_white.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
 import { useETHBalances } from '../../state/wallet/hooks'
+import TwitterImg from '../../assets/images/tr.png'
 
 import { YellowCard } from '../Card'
 import Settings from '../Settings'
@@ -135,6 +136,36 @@ const GetStarted = styled(Text)`
 `
 
 
+const TweetLink = styled.a`
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px;
+  background-color: #def0ff;
+  color: #1b95e0;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: Helvetica;
+  border-radius: 8px;
+  margin-left: 5px;
+  font-size: 15px;
+  display: flex;
+
+`
+const TweetButton = () => {
+  const { account } = useActiveWeb3React()
+  const text = `@Arbi_Swap hey @OffchainLabs, gimme some Ropsten test tokens plz! ${account || '0xyouraddresshere'}`
+    .split(' ')
+    .join('%20')
+  const handleClick = () => {
+    window.open('https://twi' + `tter.com/intent/tweet?text=${text}`)
+  }
+  return (
+    <TweetLink target="_blank" onClick={handleClick}>
+      <span> Request Tokens   </span>  <img width="20" src={TwitterImg}/> 
+    </TweetLink>
+  )
+}
 const NETWORK_LABELS: { [chainId in ChainId]: string | null } = {
   [ChainId.MAINNET]: null,
   [ChainId.RINKEBY]: 'Rinkeby',
@@ -172,6 +203,9 @@ export default function Header( { setShouldOpenModalCache } : props) {
           <HeaderElement onClick ={()=> setShouldOpenModalCache(true)}>
             <GetStarted style={ unconnected ? {color: 'red'}: {}}> { unconnected ? 'Connect to Arbitrum' : 'Get Started'} </GetStarted>
           </HeaderElement>
+          {! unconnected && <HeaderElement >
+            <TweetButton/>
+          </HeaderElement>}
           <HeaderElement>
             <TestnetWrapper>
               {!isMobile && chainId && NETWORK_LABELS[chainId] && <NetworkCard>{NETWORK_LABELS[chainId]}</NetworkCard>}
