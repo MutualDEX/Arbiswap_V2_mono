@@ -117,7 +117,7 @@ function WelcomeCarousel() {
         text={
           <span>
             {' '}
-            Welcome to Arbiswap, a layer 2 implementation of the Uniswap Exchange on Arbitrum Rollup, brought to you by
+            Welcome to Arbiswap, a layer 2 implementation of the  <ModalLink target="_blank" href="https://uniswap.org/">Uniswap Exchange</ModalLink> on Arbitrum Rollup, brought to you by
             the friendly folks at{' '}
             <ModalLink tModalLinkrget="_blank" href="https://offchainlabs.com/">
               {' '}
@@ -184,7 +184,7 @@ function WelcomeCarousel() {
         text={
           <span>
             For more info, checkout our{' '}
-            <ModalLink href="qq" target="_blank">
+            <ModalLink href="qqq" target="_blank">
               blog
             </ModalLink>
             , our{' '}
