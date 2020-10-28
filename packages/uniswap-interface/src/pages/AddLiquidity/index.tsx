@@ -143,7 +143,7 @@ export default function AddLiquidity({
 
     let estimate,
       method: (...args: any) => Promise<TransactionResponse>,
-      args: Array<string | string[] | number> | Uint8Array,
+      args: Array<string | string[] | number> | Uint8Array | Uint8Array[],
       value: BigNumber | null
     if (currencyA === ETHER || currencyB === ETHER) {
       const tokenBIsETH = currencyB === ETHER
@@ -158,7 +158,7 @@ export default function AddLiquidity({
         account,
         deadlineFromNow
       ]      
-      args = await serializeAndLookupIndices(unserializedArgs)
+      args = [await serializeAndLookupIndices(unserializedArgs)]
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity
@@ -177,9 +177,9 @@ export default function AddLiquidity({
     }
 
     setAttemptingTxn(true)
-    await estimate(args, value ? { value } : {})
+    await estimate(...args, value ? { value } : {})
       .then(estimatedGasLimit =>
-        method(args, {
+        method(...args, {
           ...(value ? { value } : {}),
           gasLimit: calculateGasMargin(estimatedGasLimit)
         }).then(response => {
