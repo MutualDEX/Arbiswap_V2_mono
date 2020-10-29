@@ -19,7 +19,7 @@ const chainIdToNetwork: { [network: number]: string } = {
   18: 'thundercoreTestnet',
   163: 'lightstreams',
   122: 'fuse',
-  215728282823301: "ArbitrumTestnet"
+  78493026558779: "ArbitrumTestnet"
 }
 
 type Network = number | { chainId: string; [key: string]: any }

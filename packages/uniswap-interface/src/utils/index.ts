@@ -18,18 +18,18 @@ export function isAddress(value: any): string | false {
     return false
   }
 }
-
+const arbId = +(process.env.REACT_APP_CHAIN_ID || 0)
 const ETHERSCAN_PREFIXES: { [chainId in ChainId]: string } = {
   1: '',
   3: 'ropsten.',
   4: 'rinkeby.',
   5: 'goerli.',
   42: 'kovan.',
-  215728282823301: 'arbitrum' 
+  78493026558779: 'arbitrum' 
 }
 
 export function getEtherscanLink(chainId: ChainId, data: string, type: 'transaction' | 'token' | 'address'): string {
-  const prefix = chainId === 215728282823301 ? "https://explorer.offchainlabs.com/#" :  `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
+  const prefix = chainId === arbId ? "https://explorer.offchainlabs.com/#" :  `https://${ETHERSCAN_PREFIXES[chainId] || ETHERSCAN_PREFIXES[1]}etherscan.io`
 
   switch (type) {
     case 'transaction': {
