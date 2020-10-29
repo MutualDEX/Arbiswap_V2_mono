@@ -742,7 +742,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
             return (_address, oldCursor + 4);
         } else {
             _address =  args.toAddress(oldCursor);
-            ArbSys(arbSys).addressTable_lookupAddress(_address, true);
+            ArbSys(arbSys).addressTable_register(_address);
             return (_address, oldCursor + 20);
         }
 
