@@ -132,15 +132,15 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   //   color: '#6748FF',
   //   mobile: true
   // },
-  // Portis: {
-  //   connector: portis,
-  //   name: 'Portis',
-  //   iconName: 'portisIcon.png',
-  //   description: 'Login using Portis hosted wallet',
-  //   href: null,
-  //   color: '#4A6C9B',
-  //   mobile: true
-  // }
+  Portis: {
+    connector: portis,
+    name: 'Portis',
+    iconName: 'portisIcon.png',
+    description: 'Login using Portis hosted wallet',
+    href: null,
+    color: '#4A6C9B',
+    mobile: true
+  }
 }
 
 export const NetworkContextName = 'NETWORK'
