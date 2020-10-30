@@ -139,16 +139,6 @@ function WelcomeCarousel( { closeModal }) {
       />
       <ImageSlide
         text={
-          <span>
-            To use Portis, simply click "Connect to a wallet", select Portis, login/sign up and get started.
-          
-          </span>
-        }
-        imageUrl={Portis}
-        imageStyle={{minWidth: 200}}
-      />
-      <ImageSlide
-        text={
           <span style={{fontSize: '14px'}}>
             To use MetaMask, first make sure you have the extension{' '}
             <ModalLink target="_blank" href="https://metamask.io/download.html">
@@ -158,6 +148,15 @@ function WelcomeCarousel( { closeModal }) {
           </span>
         }
         imageUrl={L2}
+      />
+  <ImageSlide
+        text={
+          <span>
+            Alternatively, to use Portis Wallet, simply click "Connect to a wallet", select Portis, login/sign up and get started.
+          </span>
+        }
+        imageUrl={Portis}
+        imageStyle={{minWidth: 200}}
       />
       <ImageSlide
         text={
