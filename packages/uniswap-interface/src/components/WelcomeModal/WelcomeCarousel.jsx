@@ -179,6 +179,8 @@ function WelcomeCarousel( { closeModal }) {
           </span>
         }
         imageUrl={ActionsGif}
+        imageStyle={{minWidth: 200}}
+
       />
 
       <ImageSlide
