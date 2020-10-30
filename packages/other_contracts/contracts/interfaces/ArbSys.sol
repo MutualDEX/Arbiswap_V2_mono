@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-pragma solidity >=0.4.21 <0.6.0;
+pragma solidity >=0.5.0;
 
 interface ArbSys {
     // Send given amount of ERC-20 tokens to dest with token contract sender.
