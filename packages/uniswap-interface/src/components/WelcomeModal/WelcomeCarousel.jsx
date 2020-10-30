@@ -6,6 +6,7 @@ import TwitterImg from '../../assets/images/twitter_img.png'
 import Withdraw from '../../assets/images/arrow-down-blue.svg'
 import ActionsGif from '../../assets/gifs/uni.gif'
 import Explorer from '../../assets/gifs/explorer.gif'
+import Portis from '../../assets/gifs/portis.gif'
 
 import TwitterImage from'../../assets/images/arrow-down-blue.svg'
 import LogoHandshake from '../../assets/images/logo-handshake.png'
@@ -119,13 +120,13 @@ function WelcomeCarousel() {
             {' '}
             Welcome to Arbiswap, a layer 2 implementation of the  <ModalLink target="_blank" href="https://uniswap.org/">Uniswap Exchange</ModalLink> on Arbitrum Rollup, brought to you by
             the friendly folks at{' '}
-            <ModalLink tModalLinkrget="_blank" href="https://offchainlabs.com/">
+            <ModalLink target="_blank" href="https://offchainlabs.com/">
               {' '}
               Offchain Labs!
             </ModalLink>
             <br /> 
             <br />
-            Once you get some funds on the rollup chain, you can use them just like you would Layer 1 Uniswap.
+            Once you get some funds on the rollup chain, you can use them with the Portis or MetaMask wallets, just like you would Layer 1 Uniswap.
             <br />
 
             <br />
@@ -138,9 +139,19 @@ function WelcomeCarousel() {
       <ImageSlide
         text={
           <span>
-            First, make sure you have{' '}
+            To use Portis, simply click "Connect to a wallet", select Portis, login/sign up and get started.
+          
+          </span>
+        }
+        imageUrl={Portis}
+        imageStyle={{minWidth: 225}}
+      />
+      <ImageSlide
+        text={
+          <span>
+            To use MetaMask, first make sure you have the extension{' '}
             <ModalLink target="_blank" href="https://metamask.io/download.html">
-              MetaMask installed,
+              installed,
             </ModalLink>{' '}
             and then connect to our publicly hosted node at <CopyLink  url="https://kovan2.arbitrum.io/rpc" msg="Aggregator url copied to clipboard"/> via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
           </span>
