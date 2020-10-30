@@ -158,7 +158,7 @@ const TweetButton = () => {
   const handleClick = useTwitter()
   return (
     <TweetLink target="_blank" onClick={handleClick}>
-      <span> Request Tokens   </span>  <img width="20" src={TwitterImg}/> 
+      <span> Request Tokens   </span>  <img width="20" height="20" src={TwitterImg}/> 
     </TweetLink>
   )
 }
