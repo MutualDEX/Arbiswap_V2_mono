@@ -49,9 +49,9 @@ function WelcomeModal({ shouldOpenModalCache, setShouldOpenModalCache }) {
   }, [setShouldOpenModalCache, shouldOpenModalCache])
 
   return (
-    <Modal isOpen={isOpen} onDismiss={onDismiss} minHeight={'70'}>
+    <Modal isOpen={isOpen} onDismiss={onDismiss} minHeight={'70'} initialFocusRef={true}>
       <ModalContainer>
-        <Carousel />
+        <Carousel closeModal={()=>  onDismiss()} />
       </ModalContainer>
     </Modal>
   )

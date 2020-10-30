@@ -39,19 +39,7 @@ function copyTextToClipboard(str) {
   document.body.removeChild(el)
 }
 
-const CopyLink = ({ url, msg }) => {
 
-  const onClick = (e) => {
-    e.preventDefault()
-    copyTextToClipboard(url)
-    alert(msg)
-  }
-  return (
-    <ModalLink href="" onClick={onClick}>
-      {url}
-    </ModalLink>
-  )
-}
 
 const carouselContainerStyle = {
   width: '95%',
@@ -66,15 +54,28 @@ const smallFontStyle = { fontSize: '15px', lineHeight: '20px' }
 
 const noBorderImgStyle = { borderStyle: 'none' }
 
-function WelcomeCarousel() {
+function WelcomeCarousel( { closeModal }) {
   const carouselRef = useRef(null)
-  const copyClick = (e)=>{
-    e.preventDefault();
-
-  }
   const [autoPlayEnabled, setAutoPlay] = useState(true)
   const disableAutoPlay = () => setAutoPlay(false)
 
+  const CopyLink = ({ url, msg }) => {
+
+    const onClick = (e) => {
+      e.preventDefault()
+      closeModal()
+      setTimeout(()=>{
+        copyTextToClipboard(url)
+        alert(msg)
+      }, 300)
+
+    }
+    return (
+      <ModalLink href="" onClick={onClick}>
+        {url}
+      </ModalLink>
+    )
+  }
   const handleArrowPress = useCallback(
     e => {
       e.stopPropagation()
