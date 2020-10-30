@@ -164,7 +164,7 @@ function WelcomeCarousel( { closeModal }) {
           <span>
             If you already have Ether/tokens on Kovan, you can deposit them via our <ModalLink href="https://bridge.offchainlabs.com/" target="_blank">token bridge.</ModalLink> <br/><br/>
             <span>Alternatively,</span> <TweetButton />{' '}
-            <span> at us and we’ll send some Kovan ETH and Arbiswap test tokens directly to you on the Layer 2 chain.</span>
+            <span> at us and we’ll send some Arbiswap test tokens directly to you on the Layer 2 chain.</span>
           </span>
         }
         imageUrl={TwitterImg}
