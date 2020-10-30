@@ -184,7 +184,7 @@ function WelcomeCarousel( { closeModal }) {
       <ImageSlide
         text={
           <span>
-            Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you add our custom block explorer url to MetaMask, then MetaMask will link to your transactions directly:
+            Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you're using MetaMask, you can add our block explorer url and MetaMask will link to your transactions directly:
              
              <CopyLink url="https://explorer.offchainlabs.com/#" msg="Block explorer url copied to clipboard" />
           </span>
