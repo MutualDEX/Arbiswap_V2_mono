@@ -26,13 +26,11 @@ const ImgWrapper = styled.div`
 `
 
 const WelcomeText = styled.div`
-  font-size: 13px;
+  font-size: 16px;
   margin-bottom: 10px;
   min-height: 100px;
-  line-height: 22px;
+  line-height: 24px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
-  font-size:14px;
-  line-height: 21px;
 `}
 `
 const WelcomeSliderContainer = styled.div`

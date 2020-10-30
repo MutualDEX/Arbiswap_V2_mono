@@ -145,11 +145,11 @@ function WelcomeCarousel( { closeModal }) {
           </span>
         }
         imageUrl={Portis}
-        imageStyle={{minWidth: 225}}
+        imageStyle={{minWidth: 200}}
       />
       <ImageSlide
         text={
-          <span>
+          <span style={{fontSize: '14px'}}>
             To use MetaMask, first make sure you have the extension{' '}
             <ModalLink target="_blank" href="https://metamask.io/download.html">
               installed,
@@ -183,7 +183,7 @@ function WelcomeCarousel( { closeModal }) {
 
       <ImageSlide
         text={
-          <span>
+          <span style={{fontSize: '13px'}}>
             Check out our <ModalLink href="https://explorer.offchainlabs.com/#" target="_blank">block explorer</ModalLink> to see Arbitrum transactions get processed in real time. <br/><br/> As a bonus, if you're using MetaMask, you can add our block explorer url and MetaMask will link to your transactions directly:
              
              <CopyLink url="https://explorer.offchainlabs.com/#" msg="Block explorer url copied to clipboard" />
