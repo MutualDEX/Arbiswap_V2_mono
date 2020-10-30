@@ -1,10 +1,17 @@
 {
     "name": "Arbitrum Testnet",
-    "keywords": ["defi", "uma", "yield"],
+    "keywords": ["Arbitrum", "Testnet"],
     "timestamp": "2020-08-25T01:40:34.305Z",
     "tokens": [
       {
-        "chainId": 215728282823301,
+        "chainId": 78493026558779,
+        "address": "0xF36D7A74996E7DeF7A6bD52b4C2Fe64019DADa25",
+        "name": "ArbiswapTest Coins",
+        "symbol": "ARBI",
+        "decimals": 18
+      },
+      {
+        "chainId": 78493026558779,
         "address": "0xc8ae102c8c5fca72cd25ed05769847b3089d6667",
         "name": "Goldman coins",
         "symbol": "DZG",
