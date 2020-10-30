@@ -13,6 +13,8 @@ import Wordmark from '../../assets/svg/wordmark.svg'
 import WordmarkDark from '../../assets/svg/wordmark_white.svg'
 import { useActiveWeb3React } from '../../hooks'
 import { useDarkModeManager } from '../../state/user/hooks'
+import useTwitter  from '../../hooks/useTwitter'
+
 import { useETHBalances } from '../../state/wallet/hooks'
 import TwitterImg from '../../assets/images/tr.png'
 
@@ -153,13 +155,7 @@ const TweetLink = styled.a`
 
 `
 const TweetButton = () => {
-  const { account } = useActiveWeb3React()
-  const text = `@Arbi_Swap hey @OffchainLabs, gimme some Ropsten test tokens plz! ${account || '0xyouraddresshere'}`
-    .split(' ')
-    .join('%20')
-  const handleClick = () => {
-    window.open('https://twi' + `tter.com/intent/tweet?text=${text}`)
-  }
+  const handleClick = useTwitter()
   return (
     <TweetLink target="_blank" onClick={handleClick}>
       <span> Request Tokens   </span>  <img width="20" src={TwitterImg}/> 

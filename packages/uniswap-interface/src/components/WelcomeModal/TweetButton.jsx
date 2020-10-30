@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useActiveWeb3React } from '../../hooks'
+import useTwitter  from '../../hooks/useTwitter'
 
 const TweetLink = styled.a`
   position: relative;
@@ -15,13 +15,7 @@ const TweetLink = styled.a`
   font-family: Helvetica;
 `
 const TweetButton = () => {
-  const { account } = useActiveWeb3React()
-  const text = `@Arbi_Swap hey @OffchainLabs, gimme some Ropsten test tokens plz! ${account || '0xyouraddresshere'}`
-    .split(' ')
-    .join('%20')
-  const handleClick = () => {
-    window.open('https://twi' + `tter.com/intent/tweet?text=${text}`)
-  }
+  const handleClick = useTwitter()
   return (
     <TweetLink target="_blank" onClick={handleClick}>
       Click here to Tweet
