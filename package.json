@@ -2,7 +2,7 @@
   "name": "arbiswap_v2_mono",
   "version": "1.0.0",
   "private": true,
-  "workspaces": {"packages":["packages/other_contracts", "packages/uniswap-interface", "packages/uniswap-sdk", "packages/uniswap-v2-core", "packages/scripts", "packages/portis-connector"]},
+  "workspaces": {"packages":["packages/other_contracts", "packages/uniswap-interface", "packages/uniswap-sdk", "packages/uniswap-v2-core", "packages/scripts", "packages/portis-connector", "packages/fortmatic-connector"]},
   "scripts": {
   	"local_setup_2": "yarn workspace @uniswap/v2-core migrate --network local_arbitrum && yarn workspace other_contracts migrate --network local_arbitrum && yarn workspace @uniswap/sdk build",
   	"developement_setup": "yarn workspace @uniswap/v2-core migrate && yarn workspace other_contracts migrate && yarn workspace @uniswap/sdk build",
