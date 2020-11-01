@@ -127,7 +127,7 @@ function WelcomeCarousel( { closeModal }) {
             </ModalLink>
             <br /> 
             <br />
-            Once you get some funds on the rollup chain, you can use them with the Portis or MetaMask wallets, just like you would Layer 1 Uniswap.
+            Once you get some funds on the rollup chain, you can use them with the Portis, Fortmatic or MetaMask wallets, just like you would Layer 1 Uniswap.
             <br />
 
             <br />
@@ -152,7 +152,7 @@ function WelcomeCarousel( { closeModal }) {
   <ImageSlide
         text={
           <span>
-            Alternatively, to use Portis Wallet, simply click "Connect to a wallet", select Portis, login/sign up and get started.
+            Alternatively, to use the Portis or Fortmatic Wallets simply click "Connect to a wallet", select Portis or Fortmatic, login/sign up and get started.
           </span>
         }
         imageUrl={Portis}
