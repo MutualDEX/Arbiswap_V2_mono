@@ -1,6 +1,5 @@
 import { ChainId } from '@uniswap/sdk'
 import { FortmaticConnector as FortmaticConnectorCore } from '@web3-react/fortmatic-connector'
-
 export const OVERLAY_READY = 'OVERLAY_READY'
 
 type FormaticSupportedChains = Extract<ChainId, ChainId.MAINNET | ChainId.ROPSTEN | ChainId.RINKEBY | ChainId.KOVAN>
@@ -20,7 +19,15 @@ export class FortmaticConnector extends FortmaticConnectorCore {
       const { apiKey, chainId } = this as any
       if (chainId in CHAIN_ID_NETWORK_ARGUMENT) {
         this.fortmatic = new Fortmatic(apiKey, CHAIN_ID_NETWORK_ARGUMENT[chainId as FormaticSupportedChains])
-      } else {
+      } else if (chainId == this.chainId){          
+        const customNodeOptions = {
+          rpcUrl: this.nodeUrl, 
+          chainId: this.chainId,
+        } 
+       this.fortmatic  = new Fortmatic(this.apiKey, customNodeOptions);
+
+      }
+      else {
         throw new Error(`Unsupported network ID: ${chainId}`)
       }
     }
@@ -28,8 +35,9 @@ export class FortmaticConnector extends FortmaticConnectorCore {
     const provider = this.fortmatic.getProvider()
 
     const pollForOverlayReady = new Promise(resolve => {
-      const interval = setInterval(() => {
+      const interval = setInterval(() => {          
         if (provider.overlayReady) {
+          console.info("Resolving fortmatic connection")
           clearInterval(interval)
           this.emit(OVERLAY_READY)
           resolve()

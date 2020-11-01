@@ -41,7 +41,8 @@ export const walletconnect = new WalletConnectConnector({
 // mainnet only
 export const fortmatic = new FortmaticConnector({
   apiKey: FORMATIC_KEY ?? '',
-  chainId: 1
+  chainId: NETWORK_CHAIN_ID,
+  nodeUrl: NETWORK_URL
 })
 
 export const portis = new PortisConnector({
