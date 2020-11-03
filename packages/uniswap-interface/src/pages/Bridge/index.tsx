@@ -1,4 +1,4 @@
-import { CurrencyAmount, JSBI, Token, Trade } from '@uniswap/sdk'
+import { CurrencyAmount, JSBI, Token, Trade, Currency } from '@uniswap/sdk'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ArrowDown } from 'react-feather'
 import { Text } from 'rebass'
@@ -92,7 +92,6 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
 
 
   // for expert mode
-  const toggleSettings = useToggleSettingsMenu()
   const [isExpertMode] = useExpertModeManager()
 
   // get custom setting values for user
@@ -169,18 +168,18 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
 
   const currencyValue = formattedAmounts[Field.INPUT]
   const currency = currencies[Field.INPUT]
-  
+
   const handleWithdraw = useCallback(()=>{
     if (!currency) return;
     if (currency.symbol === "ETH"){
       withdrawEth(currencyValue, true).then((tx:TransactionResponse)=>{
         addTransaction(tx,{ summary: `Withdraw ${currencyValue} ETH to L1`})
       })
-      
+
     } else {
-      const currentCurrency = currency as Token       
+      const currentCurrency = currency as Token
       addToken(currentCurrency.address, TokenType.ERC20).then(()=>{
-        
+
         withdrawToken(currentCurrency.address, currencyValue, true).then((tx:TransactionResponse)=>{
           addTransaction(tx,{ summary: `Withdraw ${currency.symbol || currency.name} Token to L1`})
 
@@ -189,12 +188,9 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
       })
     }
   }, [currencyValue, currency, withdrawEth, withdrawToken])
-  
 
 
-  // errors
-  const [showInverted, setShowInverted] = useState<boolean>(false)
-
+  // err
   // warnings on slippage
 
 
@@ -204,10 +200,9 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
     inputCurrency => {      
       setApprovalSubmitted(false) // reset 2 step UI for approvals
       onCurrencySelection(Field.INPUT, inputCurrency)
-       
       if (!inputCurrency || inputCurrency.symbol === "ETH")return
-      const currentCurrency = inputCurrency as Token 
-      if( !bridgeTokens[currentCurrency.address]){        
+      const currentCurrency = inputCurrency as Token
+      if( !bridgeTokens[currentCurrency.address]){
         addToken(currentCurrency.address, TokenType.ERC20)
       }
     },
@@ -256,53 +251,12 @@ export default function Bridge({withdrawEth, withdrawToken, bridgeTokens, addTok
             <Container hideInput={false}>
             <LabelRow>
 
-                  <ExternalLink href="https://bridge.offchainlabs.com/">Visit Bridge Page To Deposit Assets Into Arbitrum Chain</ExternalLink>
+                  <ExternalLink href="https://bridge.arbitrum.io/">Visit Bridge Page To Deposit Assets Into Arbitrum Chain</ExternalLink>
             </LabelRow>
             </Container>
 
 
-            {recipient !== null && !showWrap ? (
-              <>
-                <AutoRow justify="space-between" style={{ padding: '0 1rem' }}>
-                  <ArrowWrapper clickable={false}>
-                    <ArrowDown size="16" color={theme.text2} />
-                  </ArrowWrapper>
-                  <LinkStyledButton id="remove-recipient-button" onClick={() => onChangeRecipient(null)}>
-                    - Remove send
-                  </LinkStyledButton>
-                </AutoRow>
-                <AddressInputPanel id="recipient" value={recipient} onChange={onChangeRecipient} />
-              </>
-            ) : null}
 
-            {showWrap ? null : (
-              <Card padding={'.25rem .75rem 0 .75rem'} borderRadius={'20px'}>
-                <AutoColumn gap="4px">
-                  {Boolean(trade) && (
-                    <RowBetween align="center">
-                      <Text fontWeight={500} fontSize={14} color={theme.text2}>
-                        Price
-                      </Text>
-                      <TradePrice
-                        price={trade?.executionPrice}
-                        showInverted={showInverted}
-                        setShowInverted={setShowInverted}
-                      />
-                    </RowBetween>
-                  )}
-                  {allowedSlippage !== INITIAL_ALLOWED_SLIPPAGE && (
-                    <RowBetween align="center">
-                      <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
-                        Slippage Tolerance
-                      </ClickableText>
-                      <ClickableText fontWeight={500} fontSize={14} color={theme.text2} onClick={toggleSettings}>
-                        {allowedSlippage / 100}%
-                      </ClickableText>
-                    </RowBetween>
-                  )}
-                </AutoColumn>
-              </Card>
-            )}
           </AutoColumn>
           <BottomGrouping>
           <ButtonLight disabled={+currencyValue === 0} onClick={handleWithdraw}>Withdraw</ButtonLight>
