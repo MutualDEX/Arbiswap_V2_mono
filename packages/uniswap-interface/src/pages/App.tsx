@@ -69,7 +69,11 @@ const Marginer = styled.div`
 export default function App({bridge} : any) {
   const [shouldOpenModalCache, setShouldOpenModalCache] = useLocalStorage('welcomeModal', true)
 
-
+  if (!bridge){
+    console.warn('ZOMG');
+    
+  }
+  
   return (
     <Suspense fallback={null}>
       <WelcomeModal shouldOpenModalCache={shouldOpenModalCache} setShouldOpenModalCache={setShouldOpenModalCache} />
@@ -89,7 +93,7 @@ export default function App({bridge} : any) {
                 <Route exact strict path="/send" component={RedirectPathToSwapOnly} />
                 <Route exact strict path="/find" component={PoolFinder} />
                 <Route exact strict path="/pool" component={Pool} />
-               { bridge && <Route exact strict path="/bridge" component={()=> <Bridge withdrawEth={bridge.withdrawEth} withdrawToken={bridge.withdrawToken} bridgeTokens={bridge.bridgeTokens} addToken={bridge.addToken}/>} /> }
+               { bridge && <Route exact strict path="/bridge" render={()=> <Bridge withdrawEth={bridge.withdrawEth} withdrawToken={bridge.withdrawToken} bridgeTokens={bridge.bridgeTokens} addToken={bridge.addToken}/>} /> }
                 <Route exact strict path="/create" component={RedirectToAddLiquidity} />
                 <Route exact path="/add" component={AddLiquidity} />
                 <Route exact path="/add/:currencyIdA" component={RedirectOldAddLiquidityPathStructure} />
