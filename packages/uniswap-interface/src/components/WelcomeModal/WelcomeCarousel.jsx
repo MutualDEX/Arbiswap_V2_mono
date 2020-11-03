@@ -196,7 +196,7 @@ function WelcomeCarousel( { closeModal }) {
       <ImageSlide
         text={
           <span>
-            For more info, checkout our{' '}
+            For more info, check out our{' '}
             <ModalLink href="qqq" target="_blank">
               blog
             </ModalLink>
@@ -204,11 +204,14 @@ function WelcomeCarousel( { closeModal }) {
             <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">
               developer docs
             </ModalLink>
-            , and the{' '}
+            , the{' '}
             <ModalLink href="https://offchainlabs.com/" target="_blank">
               Offchain Labs website
             </ModalLink>
-            .
+            , and join our{' '}
+            <ModalLink href="https://discord.gg/ZpZuw7p" target="_blank">
+            discord
+            </ModalLink>.
             <br /> <br />
             Happy swapping!
           </span>
