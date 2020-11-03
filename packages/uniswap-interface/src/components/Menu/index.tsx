@@ -94,7 +94,7 @@ export default function Menu() {
       </StyledMenuButton>
       {open && (
         <MenuFlyout>
-          <MenuItem id="link" href="https://qqq.com">
+          <MenuItem id="link" href="https://medium.com/@offchain/2fe3c64bef00">
             <Info size={14} />
             About
           </MenuItem>
