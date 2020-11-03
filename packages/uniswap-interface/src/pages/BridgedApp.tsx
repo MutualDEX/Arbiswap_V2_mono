@@ -15,7 +15,7 @@ const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken, add: addT
     ethProvider,
     arbProvider,
     // TODO
-    "0x175c0b09453cbb44fb7f56ba5638c43427aa6a85",
+    "0xC34Fd04E698dB75f8381BFA7298e8Ae379bFDA71",
         // @ts-ignore
     ethProvider.getSigner( window.ethereum?.selectedAddress),
     arbSigner

@@ -11,7 +11,7 @@ export enum ChainId {
   RINKEBY = 4,
   GÖRLI = 5,
   KOVAN = 42,
-  ARBITRUM = 78493026558779
+  ARBITRUM = 152709604825713
 }
 
 export enum TradeType {
