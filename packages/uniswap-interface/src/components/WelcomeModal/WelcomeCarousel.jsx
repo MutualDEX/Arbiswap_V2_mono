@@ -197,7 +197,7 @@ function WelcomeCarousel( { closeModal }) {
         text={
           <span>
             For more info, check out our{' '}
-            <ModalLink href="qqq" target="_blank">
+            <ModalLink href="https://medium.com/offchainlabs" target="_blank">
               blog
             </ModalLink>
             , our{' '}
