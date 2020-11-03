@@ -71,7 +71,7 @@ function WelcomeCarousel( { closeModal }) {
 
     }
     return (
-      <ModalLink href="" onClick={onClick}>
+      <ModalLink href={url} onClick={onClick}>
         {url}
       </ModalLink>
     )
@@ -144,7 +144,7 @@ function WelcomeCarousel( { closeModal }) {
             <ModalLink target="_blank" href="https://metamask.io/download.html">
               installed,
             </ModalLink>{' '}
-            and then connect to our publicly hosted node at <CopyLink  url="https://kovan2.arbitrum.io/rpc" msg="Aggregator url copied to clipboard"/> via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
+            and then connect to our publicly hosted node at <CopyLink  url="https://kovan2.arbitrum.io/rpc" msg="Aggregator url copied to clipboard"/> (click to copy) via Custom RPC <ModalLink href="https://developer.offchainlabs.com/docs/Developer_Quickstart/" target="_blank">(or launch and connect to you own node!)</ModalLink>
           </span>
         }
         imageUrl={L2}
