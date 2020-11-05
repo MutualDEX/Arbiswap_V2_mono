@@ -68,11 +68,6 @@ const Marginer = styled.div`
 
 export default function App({bridge} : any) {
   const [shouldOpenModalCache, setShouldOpenModalCache] = useLocalStorage('welcomeModal', true)
-
-  if (!bridge){
-    console.warn('ZOMG');
-    
-  }
   
   return (
     <Suspense fallback={null}>
