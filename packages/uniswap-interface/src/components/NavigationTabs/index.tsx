@@ -7,6 +7,8 @@ import { NavLink, Link as HistoryLink } from 'react-router-dom'
 import { ArrowLeft } from 'react-feather'
 import { RowBetween } from '../Row'
 import QuestionHelper from '../QuestionHelper'
+import { useActiveWeb3React } from '../../hooks'
+import { ChainId } from '@uniswap/sdk'
 
 const Tabs = styled.div`
   ${({ theme }) => theme.flexRowNoWrap}
@@ -54,6 +56,8 @@ const StyledArrowLeft = styled(ArrowLeft)`
 
 export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' | 'bridge' }) {
   const { t } = useTranslation()
+  const { chainId } = useActiveWeb3React()
+
   return (
     <Tabs style={{ marginBottom: '20px' }}>
       <StyledNavLink id={`swap-nav-link`} to={'/swap'} isActive={() => active === 'swap'}>
@@ -62,9 +66,9 @@ export function SwapPoolTabs({ active }: { active: 'swap' | 'pool' | 'bridge' })
       <StyledNavLink id={`pool-nav-link`} to={'/pool'} isActive={() => active === 'pool'}>
         {t('pool')}
       </StyledNavLink>
-        <StyledNavLink id={`bridge-nav-link`} to={'/bridge'} isActive={() => active === 'bridge'}>
+        { chainId === ChainId.ARBITRUM && <StyledNavLink id={`bridge-nav-link`} to={'/bridge'} isActive={() => active === 'bridge'}>
         L1/L2 Bridge
-      </StyledNavLink>
+  </StyledNavLink> }
     </Tabs>
   )
 }
