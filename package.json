@@ -9,6 +9,6 @@
     "local_setup": "yarn workspace @uniswap/v2-core migrate_local && yarn workspace other_contracts migrate_local && yarn workspace @uniswap/sdk build",
     "start_ui": "yarn workspace @uniswap/interface start",
     "remote_setup": "yarn workspace @uniswap/v2-core migrate_remote && yarn workspace other_contracts migrate_remote && yarn workspace @uniswap/sdk build",
-    "build": "yarn workspace @uniswap/v2-core build && yarn workspace other_contracts build && yarn workspace @uniswap/sdk build && yarn workspace @uniswap/interface build"
+    "build": "yarn workspace @uniswap/v2-core build && yarn workspace other_contracts build && yarn workspace @uniswap/sdk build && yarn workspace @web3-react/fortmatic-connector build && yarn workspace @web3-react/portis-connector build && yarn workspace @uniswap/interface build"
   }
 }
