@@ -50,7 +50,9 @@
     "migrate_local": "truffle migrate --reset --network local_arbitrum",
     "migrate_remote": "truffle migrate --reset --network remote_arbitrum",
     "build": "truffle build"
-
   },
-  "license": "GPL-3.0-or-later"
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "truffle": "^5.1.55"
+  }
 }
