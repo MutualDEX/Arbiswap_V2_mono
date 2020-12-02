@@ -3909,10 +3909,10 @@ arb-ethers-web3-bridge@^0.7.3:
     ethers-providers "^2.1.19"
     ethers-utils "^2.1.11"
 
-arb-provider-ethers@0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.2.tgz#63915049d982063c90a87a854b19381883c81904"
-  integrity sha512-7avyWW/oUholM2u4t122uKfWRRuuHNNbGjj6tDm9k1NpNE2bcvePophRI3xPreja96Kxh3RoprShqGF6BniWNA==
+arb-provider-ethers@0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.3.tgz#7b4d979bcce4414fb1ca4d97a5efd400d5a9455f"
+  integrity sha512-1+qq4rLAxqqzLPRA7fQR4S2zIW2Mlqs89unSBfPeykGWe/PPJVnlOaCNjpv5BGGB31nL+e0nONmCheVCf7OxNg==
   dependencies:
     "@types/promise-poller" "^1.7.0"
     jayson "^3.2.0"
