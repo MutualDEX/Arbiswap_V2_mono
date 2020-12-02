@@ -143,7 +143,7 @@ describe('swapTokensForExactEth tests', function() {
 
       assert.ok(oldtestTokenReserves.lt(newtestTokenReserves) , "Tokens reserves increase")
       assert.ok(oldEthReserves.sub(etherVal.mul(count)).eq(newEthReserves) , "ETH Reserves decrease as expected")
-      assert.ok(oldTestTokenPrice.gt(newTestTokenPrice), "Token quoted amount goes down after swaps")
+      assert.ok(oldTestTokenPrice.lt(newTestTokenPrice), "Token quoted amount goes up after swaps")
     })
   })
 })
