@@ -3914,7 +3914,7 @@ arb-ethers-web3-bridge@^0.7.3:
     ethers-providers "^2.1.19"
     ethers-utils "^2.1.11"
 
-arb-provider-ethers@0.7.3:
+arb-provider-ethers@0.7.3, arb-provider-ethers@^0.7.3:
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/arb-provider-ethers/-/arb-provider-ethers-0.7.3.tgz#7b4d979bcce4414fb1ca4d97a5efd400d5a9455f"
   integrity sha512-1+qq4rLAxqqzLPRA7fQR4S2zIW2Mlqs89unSBfPeykGWe/PPJVnlOaCNjpv5BGGB31nL+e0nONmCheVCf7OxNg==
@@ -18285,14 +18285,14 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-token-bridge-sdk@0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/token-bridge-sdk/-/token-bridge-sdk-0.2.6.tgz#aec7cf078d1b3446ada8f7252df6006bb9d38afb"
-  integrity sha512-64DomU1FTBDKgI2h9iNgj2fTL6nT45ateTsapi6+1Eo0FZrNImlkqTxHG8cZChzllMDOn9Z1u5EKZmo6OhMn2w==
+token-bridge-sdk@0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/token-bridge-sdk/-/token-bridge-sdk-0.2.8.tgz#e3e505a77a7554699ce30e0d33ad1876a2a5de84"
+  integrity sha512-3RXYdRBrnBX+7SMOWj9XhenPY8eiE9R3XdEE9em+Qnkkkq7o2/ooKDGeQDn/Jewcmdqi2vZrA4u+eqMsk36AWw==
   dependencies:
     "@rehooks/local-storage" "^2.3.0"
     "@types/lodash.isempty" "^4.4.6"
-    arb-provider-ethers "^0.7.0"
+    arb-provider-ethers "^0.7.3"
     ethers "4.0.47"
     lodash.clonedeep "^4.5.0"
     lodash.isempty "^4.4.0"
