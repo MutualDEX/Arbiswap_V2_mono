@@ -81,6 +81,10 @@ export function getSigner(library: Web3Provider, account: string): JsonRpcSigner
 
 // account is optional
 export function getProviderOrSigner(library: Web3Provider, account?: string): Web3Provider | JsonRpcSigner {
+  console.warn('*********  acccouht? ', account);
+  console.warn(' ********* library?', library);
+  
+  
   return account ? getSigner(library, account) : library
 }
 
