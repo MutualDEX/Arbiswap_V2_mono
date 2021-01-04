@@ -110,6 +110,7 @@
   "dependencies": {
     "@rehooks/local-storage": "^2.4.0",
     "@uniswap/sdk": "3.0.3",
+    "@web3-react/walletconnect-connector": "^6.1.6",
     "arb-provider-ethers": "0.7.3",
     "ethers-old": "npm:ethers@4.0.47",
     "react-elastic-carousel": "^0.9.1",
