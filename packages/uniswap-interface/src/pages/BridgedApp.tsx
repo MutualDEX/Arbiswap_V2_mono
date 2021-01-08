@@ -15,7 +15,7 @@ const { eth: {withdraw: withdrawEth}, token: {withdraw: withdrawToken, add: addT
     ethProvider,
     arbProvider,
     // TODO
-    process.env.REACT_APP_ARBCHAIN_ADDRESS,
+    process.env.REACT_APP_ARBCHAIN_ADDRESS as string,
         // @ts-ignore
     ethProvider.getSigner( window.ethereum?.selectedAddress),
     arbSigner
