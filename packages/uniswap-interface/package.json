@@ -114,6 +114,7 @@
     "arb-provider-ethers": "0.7.4",
     "ethers-old": "npm:ethers@4.0.47",
     "react-elastic-carousel": "^0.9.1",
-    "token-bridge-sdk": "0.2.8"
+    "token-bridge-sdk": "0.2.8",
+    "ethers": "^5.0.7"
   }
 }
