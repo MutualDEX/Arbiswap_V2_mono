@@ -9,7 +9,7 @@ import './libraries/SafeMath.sol';
 import './interfaces/IERC20.sol';
 import './interfaces/IWETH.sol';
 import "solidity-bytes-utils/contracts/BytesLib.sol";
-import './interfaces//ArbSys.sol';
+import './interfaces/ArbAddressTable.sol';
 
 contract UniswapV2Router02 is IUniswapV2Router02 {
     using SafeMath for uint;
@@ -17,7 +17,7 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
 
     address public immutable override factory;
     address public immutable override WETH;
-    address public constant arbSys = address(100);
+    address public constant arbAddressTable = 0x0000000000000000000000000000000000000066;
     
     using BytesLib for bytes;
 
@@ -737,12 +737,11 @@ contract UniswapV2Router02 is IUniswapV2Router02 {
         require(isRegistered <= 1, "UniswapV2Router, Invalid address-registered status");
         address _address; 
         if(isRegistered == 1){
-            _address = ArbSys(arbSys).addressTable_lookupIndex(  args.toUint32(oldCursor));
-            require(_address != address(0), "UniswapV2Router: Address not registered in table");
+            _address = ArbAddressTable(arbAddressTable).lookupIndex(args.toUint32(oldCursor));
             return (_address, oldCursor + 4);
         } else {
             _address =  args.toAddress(oldCursor);
-            ArbSys(arbSys).addressTable_register(_address);
+            ArbAddressTable(arbAddressTable).register(_address);
             return (_address, oldCursor + 20);
         }
 
