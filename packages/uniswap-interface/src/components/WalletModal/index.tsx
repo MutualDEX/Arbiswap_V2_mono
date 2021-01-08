@@ -92,7 +92,10 @@ const Blurb = styled.div`
     font-size: 12px;
   `};
 `
+const ModalLink = styled.a`
+  color: ${({ theme }) => theme.primary1};
 
+`
 const OptionGrid = styled.div`
   display: grid;
   grid-gap: 10px;
@@ -262,7 +265,6 @@ export default function WalletModal({
           return null
         }
       }
-
       // return rest of options
       return (
         !isMobile &&
@@ -297,7 +299,7 @@ export default function WalletModal({
           <HeaderRow>{error instanceof UnsupportedChainIdError ? 'Wrong Network' : 'Error connecting'}</HeaderRow>
           <ContentWrapper>
             {error instanceof UnsupportedChainIdError ? (
-              <h5>Please connect to the appropriate Ethereum network.</h5>
+              <h5>Please connect to the latest and greatest Arbitrum testnet: <br/> <br/> RPC Url: <a>https://kovan3.arbitrum.io/rpc</a> <br/> <br/> ChainId: <a>46116242285844</a>  </h5>
             ) : (
               'Error connecting. Try refreshing the page.'
             )}

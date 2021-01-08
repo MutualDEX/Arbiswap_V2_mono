@@ -157,8 +157,12 @@ export default function AddLiquidity({
         amountsMin[tokenBIsETH ? Field.CURRENCY_B : Field.CURRENCY_A].toString(), // eth min
         account,
         deadlineFromNow
-      ]      
+      ]     
+      console.warn("****** pre serialived");
+       
       args = [await serializeAndLookupIndices(unserializedArgs)]
+      console.warn('("****** post serialized', args);
+      
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity

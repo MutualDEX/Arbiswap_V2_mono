@@ -2,13 +2,13 @@
   "name": "arbiswap_v2_mono",
   "version": "1.0.0",
   "private": true,
-  "workspaces": {"packages":["packages/other_contracts", "packages/uniswap-interface", "packages/uniswap-sdk", "packages/uniswap-v2-core", "packages/scripts", "packages/portis-connector", "packages/fortmatic-connector"]},
+  "workspaces": {"packages":["packages/other_contracts", "packages/uniswap-interface", "packages/uniswap-sdk", "packages/uniswap-v2-core", "packages/scripts", "packages/portis-connector", "packages/fortmatic-connector", "packages/walletconnect-connector"]},
   "scripts": {
   	"local_setup_2": "yarn workspace @uniswap/v2-core migrate --network local_arbitrum && yarn workspace other_contracts migrate --network local_arbitrum && yarn workspace @uniswap/sdk build",
   	"developement_setup": "yarn workspace @uniswap/v2-core migrate && yarn workspace other_contracts migrate && yarn workspace @uniswap/sdk build",
     "local_setup": "yarn workspace @uniswap/v2-core migrate_local && yarn workspace other_contracts migrate_local && yarn workspace @uniswap/sdk build",
     "start_ui": "yarn workspace @uniswap/interface start",
     "remote_setup": "yarn workspace @uniswap/v2-core migrate_remote && yarn workspace other_contracts migrate_remote && yarn workspace @uniswap/sdk build",
-    "build": "yarn workspace @uniswap/v2-core build && yarn workspace other_contracts build && yarn workspace @uniswap/sdk build && yarn workspace @web3-react/fortmatic-connector build && yarn workspace @web3-react/portis-connector build && yarn workspace @uniswap/interface build"
+    "build": "yarn workspace @uniswap/v2-core build && yarn workspace other_contracts build && yarn workspace @uniswap/sdk build && yarn workspace @web3-react/fortmatic-connector build && yarn workspace @web3-react/portis-connector build && yarn workspace @web3-react/walletconnect-connector build && yarn workspace @uniswap/interface build"
   }
 }
