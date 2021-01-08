@@ -7,7 +7,7 @@ const chainIdToNetwork: { [network: number]: string } = {
   3: 'ropsten',
   4: 'rinkeby',
   42: 'kovan',
-  152709604825713: "arbitrum_testnet"
+  46116242285844: "arbitrum_testnet"
 }
 
 interface FortmaticConnectorArguments {

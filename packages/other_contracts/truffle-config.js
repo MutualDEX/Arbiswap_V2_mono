@@ -50,7 +50,7 @@ module.exports = {
     remote_arbitrum: {
       provider: function () {
         return wrapProvider(
-          new HDWalletProvider(mnemonic, 'https://kovan2.arbitrum.io/rpc')
+          new HDWalletProvider(mnemonic, 'https://kovan3.arbitrum.io/rpc')
         )
       },
       network_id: '*',
