@@ -149,7 +149,6 @@ export default function AddLiquidity({
       const tokenBIsETH = currencyB === ETHER
       estimate = router.estimateGas['addLiquidityETH(bytes)']
       method = router['addLiquidityETH(bytes)']
-      console.warn('ADD LIQUIDITY ETH BYTES');
       const unserializedArgs = [
         wrappedCurrency(tokenBIsETH ? currencyA : currencyB, chainId)?.address ?? '', // token
         (tokenBIsETH ? parsedAmountA : parsedAmountB).raw.toString(), // token desired
@@ -158,11 +157,8 @@ export default function AddLiquidity({
         account,
         deadlineFromNow
       ]     
-      console.warn("****** pre serialived");
        
-      args = [await serializeAndLookupIndices(unserializedArgs)]
-      console.warn('("****** post serialized', args);
-      
+      args = [await serializeAndLookupIndices(unserializedArgs)]      
       value = BigNumber.from((tokenBIsETH ? parsedAmountB : parsedAmountA).raw.toString())
     } else {
       estimate = router.estimateGas.addLiquidity

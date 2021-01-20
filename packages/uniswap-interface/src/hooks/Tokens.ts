@@ -82,7 +82,7 @@ export function useTokenL1(tokenAddress?: string): Token | undefined | null {
       symbol,
       name
     )
-    console.warn('setting tokens memo');
+    console.log('Setting new token memo');
     
     setTokensMemo({...tokensMemo, [tokenAddress]: token})
 
