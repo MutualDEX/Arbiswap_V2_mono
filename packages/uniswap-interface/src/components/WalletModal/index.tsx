@@ -18,7 +18,7 @@ import { injected, fortmatic, portis } from '../../connectors'
 import { OVERLAY_READY } from '../../connectors/Fortmatic'
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector'
 import { AbstractConnector } from '@web3-react/abstract-connector'
-
+import { MouseoverTooltip } from '../Tooltip'
 const CloseIcon = styled.div`
   position: absolute;
   right: 1rem;
@@ -210,6 +210,23 @@ export default function WalletModal({
     return Object.keys(SUPPORTED_WALLETS).map(key => {
       const option = SUPPORTED_WALLETS[key]
       // check for mobile options
+      if (option.name==="WalletConnect"){
+        return <MouseoverTooltip  text="Connect to mobile MetaMask via Wallet Connect">
+        <Option
+          onClick={() => {
+            option.connector !== connector && !option.href && tryActivation(option.connector)
+          }}
+          id={`connect-${key}`}
+          key={key}
+          active={option.connector && option.connector === connector}
+          color={option.color}
+          link={option.href}
+          header={option.name}
+          subheader={null}
+          icon={require('../../assets/images/' + option.iconName)}
+        />
+        </MouseoverTooltip>
+      }
       if (isMobile) {
         //disable portis on mobile for now
         if (option.connector === portis) {
