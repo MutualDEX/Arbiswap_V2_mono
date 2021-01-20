@@ -4,14 +4,14 @@
   "timestamp": "2020-08-25T01:40:34.305Z",
   "tokens": [
     {
-      "chainId": 46116242285844,
+      "chainId": 79377087078960,
       "address": "0xc8ae102c8c5fca72cd25ed05769847b3089d6667",
       "name": "Goldman coins",
       "symbol": "DZG",
       "decimals": 18
     },
     {
-      "chainId": 46116242285844,
+      "chainId": 79377087078960,
       "address": "0xF36D7A74996E7DeF7A6bD52b4C2Fe64019DADa25",
       "name": "ArbiswapTest Token",
       "symbol": "ARBI",

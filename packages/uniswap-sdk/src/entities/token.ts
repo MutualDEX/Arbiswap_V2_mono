@@ -81,5 +81,5 @@ export const WETH = {
   ),
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'),
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'),
-  [46116242285844]: new Token(ChainId.ARBITRUM, contractAddresses.wethAddress, 18, 'WETH', 'Wrapped Ether') // deployed w/ "canonical WETH"
+  [79377087078960]: new Token(ChainId.ARBITRUM, contractAddresses.wethAddress, 18, 'WETH', 'Wrapped Ether') // deployed w/ "canonical WETH"
 }

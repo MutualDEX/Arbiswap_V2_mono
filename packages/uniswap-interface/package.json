@@ -111,7 +111,7 @@
     "@rehooks/local-storage": "^2.4.0",
     "@uniswap/sdk": "3.0.3",
     "@web3-react/walletconnect-connector": "^6.1.1",
-    "arb-provider-ethers": "0.7.4",
+    "arb-provider-ethers": "0.7.5",
     "ethers-old": "npm:ethers@4.0.47",
     "react-elastic-carousel": "^0.9.1",
     "token-bridge-sdk": "0.2.8"
