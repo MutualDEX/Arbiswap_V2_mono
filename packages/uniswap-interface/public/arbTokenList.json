@@ -5,18 +5,27 @@
   "tokens": [
     {
       "chainId": 79377087078960,
-      "address": "0xc8ae102c8c5fca72cd25ed05769847b3089d6667",
-      "name": "Goldman coins",
-      "symbol": "DZG",
-      "decimals": 18
-    },
-    {
-      "chainId": 79377087078960,
       "address": "0xF36D7A74996E7DeF7A6bD52b4C2Fe64019DADa25",
       "name": "ArbiswapTest Token",
       "symbol": "ARBI",
       "decimals": 18
+    },
+    {
+      "chainId": 79377087078960,
+      "address": "0x57Ca11067892510E022D65b0483b31Cd49155389",
+      "name": "AToken",
+      "symbol": "ATKN",
+      "decimals": 18
+    },{
+      "chainId": 79377087078960,
+      "address": "0xEe83ea3c089C36622EFc6Bf438114b62d5B4C162",
+      "name": "USDollarCoin",
+      "symbol": "USDC",
+      "decimals": 18
     }
+
+    
+    
   ],
   "version": { "major": 0, "minor": 0, "patch": 0 }
 }

@@ -46,6 +46,7 @@ const HeaderFrame = styled.div`
 const HeaderElement = styled.div`
   display: flex;
   align-items: center;
+  margin-right: 10px;
 `
 
 const HeaderElementWrap = styled.div`
@@ -142,8 +143,6 @@ const TweetLink = styled.a`
   position: relative;
   box-sizing: border-box;
   padding: 8px;
-  background-color: #def0ff;
-  color: #1b95e0;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -157,8 +156,8 @@ const TweetLink = styled.a`
 const TweetButton = () => {
   const handleClick = useTwitter()
   return (
-    <TweetLink target="_blank" onClick={handleClick}>
-      <span> Request Tokens   </span>  <img width="20" height="20" src={TwitterImg}/> 
+    <TweetLink target="_blank" href="https://faucet.arbitrum.io/">
+      Faucet
     </TweetLink>
   )
 }
@@ -198,6 +197,9 @@ export default function Header( { setShouldOpenModalCache } : props) {
         <HeaderControls>
           <HeaderElement onClick ={()=> setShouldOpenModalCache(true)}>
             <GetStarted style={ unconnected ? {color: 'red'}: {}}> { unconnected ? 'Connect to Arbitrum' : 'Get Started'} </GetStarted>
+          </HeaderElement>
+          <HeaderElement>
+          <TweetLink href="https://portal.arbitrum.io/" target="_blank"> More Dapps </TweetLink>
           </HeaderElement>
           {! unconnected && <HeaderElement >
             <TweetButton/>

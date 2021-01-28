@@ -162,11 +162,10 @@ function WelcomeCarousel( { closeModal }) {
         text={
           <span>
             If you already have Ether/tokens on Kovan, you can deposit them via our <ModalLink href="https://bridge.arbitrum.io/" target="_blank">token bridge.</ModalLink> <br/><br/>
-            <span>Alternatively,</span> <TweetButton />{' '}
-            <span> at us and we’ll send some Arbiswap test tokens directly to you on the Layer 2 chain.</span>
+            <span>Alternatively, claim some tokens directly from our <a href="http://faucet.arbitrum.io/" target="_blank">token faucet.</a></span>
           </span>
         }
-        imageUrl={TwitterImg}
+        imageUrl={''}
         imageStyle={{minWidth: 225}}
 
       />
