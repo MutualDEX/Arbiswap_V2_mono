@@ -50,20 +50,17 @@ const destructureCall = async (call: SwapCall) => {
   const bytesMethod = `${methodName}(bytes)`;
   if (contract[bytesMethod]){
     methodName = bytesMethod
-    
-    aargs = ( Array.isArray(aargs) && !['swapExactTokensForTokens', 'swapTokensForExactTokens'].includes(methodName)) && aargs.map((arg)=>{
+    aargs = ( Array.isArray(aargs) && !['swapExactTokensForTokens(bytes)', 'swapTokensForExactTokens(bytes)'].includes(methodName))  ? aargs.map((arg)=>{
       if (Array.isArray(arg)){
         return arg.filter((s)=> s!== WETH)
       }
       return arg
-    }) 
-    
+    }) : aargs
     const bytes = await serializeAndLookupIndices(aargs)
     aargs = [bytes] 
   } else {
     methodName = Object.keys(contract).find((key)=> key.startsWith(methodName) && methodName !== bytesMethod ) || methodName
   }
-  
   return { methodName, args: aargs, value, contract }
 }
 
